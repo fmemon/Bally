@@ -10,18 +10,35 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 #import "GLES-Render.h"
+#import "MyContactListener.h"
 
 // Bally
 @interface Bally : CCLayer
 {
 	b2World* world;
 	GLESDebugDraw *m_debugDraw;
+    
+    b2BodyDef bodyDef,bodyDef1;
+    
+    b2Body* ground;
+
+    b2Vec2 initVel;
+    b2PolygonShape shape;
+    b2CircleShape circleShape;
+    b2FixtureDef fd;
+    b2RevoluteJointDef revJointDef;
+    b2DistanceJointDef jointDef;
+    b2Vec2 pos;
+    
+    MyContactListener *contactListener;
+    
 }
 
 // returns a CCScene that contains the Bally as the only child
 +(CCScene *) scene;
 // adds a new sprite at a given coordinate
 -(void) addNewSpriteWithCoords:(CGPoint)p;
+-(void)compoundBody;
 
 
 @end
