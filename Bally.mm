@@ -330,14 +330,17 @@ enum {
     ball->SetLinearVelocity(initVel);
     ball->SetAngularVelocity(0.000000f);
     //circleShape.m_radius = 0.406489f;
-    circleShape.m_radius = (sprite.contentSize.width / 32.0) * 0.5f;
+    //circleShape.m_radius = (sprite.contentSize.width / 32.0) * 0.5f;
+    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.05f;
+
     fd.shape = &circleShape;
     //  fd.density = 0.196374f;
     // fd.friction = 0.300000f;
     // fd.restitution = 0.600000f;
     fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
     fd.friction = 0.0f;
-    fd.restitution = 1.0f;
+    //fd.restitution = 1.0f; toobouncy
+    fd.restitution = 0.8f;
     
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
@@ -386,7 +389,8 @@ enum {
     initVel.Set(0.000000f, 0.000000f);
     hole->SetLinearVelocity(initVel);
     hole->SetAngularVelocity(0.000000f);
-    circleShape.m_radius = 0.406489f;
+    //circleShape.m_radius = 0.406489f;
+    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.10f;//was 0.05f - too tiny
     fd.shape = &circleShape;
     fd.density = 0.196374f;
     fd.friction = 0.300000f;
