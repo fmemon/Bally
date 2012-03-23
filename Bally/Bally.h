@@ -33,7 +33,7 @@
     MyContactListener *contactListener;
     
     b2PolygonShape boxy;
-
+    b2Body* ball;
     
 }
 

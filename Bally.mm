@@ -118,19 +118,23 @@ enum {
         b2BodyDef groundBodyDef;
         b2Body* groundBody = world->CreateBody(&groundBodyDef);
         
-        shape.SetAsEdge(b2Vec2(0.000000f, 0.000000f), b2Vec2(15.000000f, 0.000000f)); //bottom wall
+        //shape.SetAsEdge(b2Vec2(0.000000f, 0.000000f), b2Vec2(15.000000f, 0.000000f)); //bottom wall
+        shape.SetAsEdge(b2Vec2(0.000000f, 0.000000f), b2Vec2(30.000000f, 0.000000f)); //bottom wall
         groundBody->CreateFixture(&shape,0);
-        shape.SetAsEdge(b2Vec2(15.000000f, 0.000000f), b2Vec2(15.000000f, 10.000000f)); //right wall
+       // shape.SetAsEdge(b2Vec2(15.000000f, 0.000000f), b2Vec2(15.000000f, 10.000000f)); //right wall
+        shape.SetAsEdge(b2Vec2(30.000000f, 0.000000f), b2Vec2(30.000000f, 10.000000f)); //right wall
         groundBody->CreateFixture(&shape,0);
-        shape.SetAsEdge(b2Vec2(15.000000f, 10.000000f), b2Vec2(0.000000f, 10.000000f)); //top wall
+        shape.SetAsEdge(b2Vec2(30.000000f, 10.000000f), b2Vec2(0.000000f, 10.000000f)); //top wall
         groundBody->CreateFixture(&shape,0);
         shape.SetAsEdge(b2Vec2(0.000000f, 10.000000f), b2Vec2(0.000000f, 0.000000f)); //;left wall
         groundBody->CreateFixture(&shape,0);
 
         
         //background
-        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand.png"];
-        sprite2.position = ccp(screenSize.width/2, screenSize.height/2);
+        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand2x.png"];
+        sprite2.anchorPoint = CGPointZero;
+        //sprite2.position = ccp(screenSize.width/2, screenSize.height/2);
+        sprite2.position = CGPointZero;
         //sprite2.anchorPoint = CGPointZero;
         [self addChild:sprite2 z:-11];
         
@@ -428,7 +432,7 @@ enum {
     bodyDef.userData = sprite;
     bodyDef.position.Set(0.468085f, 9.574468f);
     bodyDef.angle = 0.000000f;
-    b2Body* ball = world->CreateBody(&bodyDef);
+    ball = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     ball->SetLinearVelocity(initVel);
     ball->SetAngularVelocity(0.000000f);
@@ -586,6 +590,22 @@ enum {
             } 
         }  
     }
+    
+    // ball is moving.
+    if (ball)
+    {
+        b2Vec2 position = ball->GetPosition();
+        CGPoint myPosition = self.position;
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        
+        // Move the camera.
+        if (position.x > screenSize.width / 2.0f / PTM_RATIO)
+        {
+            myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
+            self.position = myPosition;
+        }
+    }
+    
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
