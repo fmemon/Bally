@@ -170,6 +170,7 @@
 		6576C4AF151CBBDA00FF2732 /* blinkie2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6576C4AD151CBBDA00FF2732 /* blinkie2.png */; };
 		6576C4B7151CBDB800FF2732 /* matty.png in Resources */ = {isa = PBXBuildFile; fileRef = 6576C4B5151CBDB800FF2732 /* matty.png */; };
 		6576C4B8151CBDB800FF2732 /* matty.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6576C4B6151CBDB800FF2732 /* matty.plist */; };
+		6576C4BA151CC61C00FF2732 /* bricks.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6576C4B9151CC61C00FF2732 /* bricks.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -498,6 +499,7 @@
 		6576C4AD151CBBDA00FF2732 /* blinkie2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blinkie2.png; sourceTree = "<group>"; };
 		6576C4B5151CBDB800FF2732 /* matty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = matty.png; sourceTree = "<group>"; };
 		6576C4B6151CBDB800FF2732 /* matty.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = matty.plist; sourceTree = "<group>"; };
+		6576C4B9151CC61C00FF2732 /* bricks.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bricks.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,6 +581,7 @@
 		6576C2A8151BC06A00FF2732 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6576C4B9151CC61C00FF2732 /* bricks.jpg */,
 				6576C4B5151CBDB800FF2732 /* matty.png */,
 				6576C4B6151CBDB800FF2732 /* matty.plist */,
 				6576C4AC151CBBDA00FF2732 /* blinkie1.png */,
@@ -1110,6 +1113,7 @@
 				6576C4AF151CBBDA00FF2732 /* blinkie2.png in Resources */,
 				6576C4B7151CBDB800FF2732 /* matty.png in Resources */,
 				6576C4B8151CBDB800FF2732 /* matty.plist in Resources */,
+				6576C4BA151CC61C00FF2732 /* bricks.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

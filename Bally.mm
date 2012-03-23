@@ -147,6 +147,9 @@ enum {
         [self compoundBody];
 
         
+        
+        
+        
         [self schedule: @selector(tick:)]; 
         
     }
@@ -199,11 +202,35 @@ enum {
 }
 
 
--(void)compoundBody {
+-(void)texturePolygon {
 
     
+    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+    //CCTexture2D *texture = [[CCTexture2D alloc] initWithImage:[UIImage imageWithContentsOfFile :[[NSBundle mainBundle] pathForResource:@”texture” ofType:@"png”]]];
+    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
+    CCSprite *sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 15.0f, 60.0f)];
+    sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
+    [sprite.texture setTexParameters:&params];
+    [self addChild:sprite];
+
+
+}
+
+-(void)compoundBody {
+    
+    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
+    CCSprite *sprite;
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+    //CCSprite *sprite = [CCSprite spriteWithTexture:texture rect:CGRectMake(0, 0, 1.72f*64.0f, 0.4*64.0f)];
+    sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
+    [sprite.texture setTexParameters:&params];
+    //[self addChild:sprite];
     
     //polygon2
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.65*64.0f, 0.35*64.0f)];
+    [self addChild:sprite];
+    bodyDef.userData = sprite;
     bodyDef.position.Set(1.779086f, 5.100423f);
     bodyDef.angle = 0.000000f;
     b2Body* polygon2 = world->CreateBody(&bodyDef);
@@ -234,6 +261,9 @@ enum {
     
     
     //staticBody1
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.35*64.0f, 0.20*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
     bodyDef1.position.Set(1.379107f, 8.495184f);
     bodyDef1.angle = -0.222508f;
     b2Body* staticBody1 = world->CreateBody(&bodyDef1);
@@ -251,7 +281,9 @@ enum {
     staticBody1->CreateFixture(&boxy,0);
     
     //staticBody2
-    
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
     bodyDef1.position.Set(5.946951f, 2.903825f);
     bodyDef1.angle = -0.025254f;
     b2Body* staticBody2 = world->CreateBody(&bodyDef1);
@@ -282,7 +314,18 @@ enum {
     fd.filter.maskBits = uint16(65535);
     staticBody2->CreateFixture(&shape,0);
     
+    /*UIImage *myImage = [UIImage imageNamed:@"bricks.jpg"];
+     CCSprite *mySprite = [CCSprite spriteWithTexture:[[CCTexture2D alloc]initWithImage:myImage]];
+     mySprite.position = ccp(100,100);
+     [self addChild:mySprite];
+     */
+    
+
+    
     //staticBody3
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
     bodyDef1.position.Set(8.670213f, 1.212766f);
     bodyDef1.angle = -0.507438f;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
@@ -303,8 +346,9 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     staticBody3->CreateFixture(&shape,0);
-    
+
     //staticBody4
+    //bodyDef.userData = sprite;
     bodyDef1.position.Set(11.574468f, 2.851064f);
     bodyDef1.angle = 0.020196f;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
@@ -329,8 +373,10 @@ enum {
     //block
     bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
-    
-    // bodyDef.userData=blockSprite;
+    sprite =nil;
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
+    [self addChild:sprite];
+    bodyDef.userData=sprite;
     b2Body* block = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     block->SetLinearVelocity(initVel);
@@ -376,7 +422,7 @@ enum {
     
     //ball
    // CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
-    CCSprite *sprite = [CCSprite spriteWithFile:@"blinkie1.png"];
+    sprite = [CCSprite spriteWithFile:@"blinkie1.png"];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:3 tag:11];
     bodyDef.userData = sprite;
@@ -550,7 +596,7 @@ enum {
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
-		[self addNewSpriteWithCoords: location];
+		//[self addNewSpriteWithCoords: location];
 	}
 }
 
