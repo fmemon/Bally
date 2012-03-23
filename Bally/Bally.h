@@ -11,6 +11,7 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 #import "MyContactListener.h"
+#import "MusicHandler.h"
 
 // Bally
 @interface Bally : CCLayer
@@ -35,6 +36,8 @@
     b2PolygonShape boxy;
     b2Body* ball;
     
+    BOOL muted;
+    
 }
 
 // returns a CCScene that contains the Bally as the only child
@@ -43,6 +46,7 @@
 -(void)addPolygon1:(CGPoint)pos;
 -(void)compoundBody;
 - (float)randomValueBetween:(float)low andValue:(float)high;
-
+- (void)turnOnMusic;
+- (void)restoreData;
 
 @end

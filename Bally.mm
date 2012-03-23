@@ -11,6 +11,7 @@
 #import "Bally.h"
 #import "MyContactListener.h"
 #import "GameOverScene.h"
+#import "SimpleAudioEngine.h"
 
 /// returns a random float between X and Y
 #define CCRANDOM_X_Y(__X__, __Y__) new_xor128_float_x_y((__X__), (__Y__))
@@ -109,6 +110,11 @@ enum {
         
         m_debugDraw->SetFlags(flags);  
         
+        //initial settings
+        muted = FALSE;
+        [self restoreData];
+        
+        
         ground = NULL;
         b2BodyDef bd;
         ground = world->CreateBody(&bd);
@@ -149,6 +155,35 @@ enum {
         
         [self addPolygon1:CGPointMake(4.764226f, 7.320508f)];
         [self compoundBody];
+
+        
+        
+        //sound
+        // Preload effect
+        [MusicHandler preload];
+        // Enable touches        
+        [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        //Pause Toggle can not sure frame cache for sprites!!!!!
+		CCMenuItemSprite *playItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
+                                                             selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
+        
+		CCMenuItemSprite *pauseItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
+                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseOFFSelect.png"]];
+        CCMenuItemToggle *pause;
+		if (!muted)  {
+            pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem, pauseItem, nil];
+            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        else {
+            pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:pauseItem, playItem, nil];
+            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        
+        
+		//Create Menu with the items created before
+		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
+		menu.position = CGPointZero;
+		[self addChild:menu z:11];
 
         
         
@@ -491,6 +526,38 @@ enum {
 }
 
 
+- (void)restoreData {
+    // Get the stored data before the view loads
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    // NSLog(@"Is muted value BEFORE %d", muted);
+    
+    if ([defaults boolForKey:@"IsMuted"]) {
+        muted = [defaults boolForKey:@"IsMuted"];
+    }
+    
+    //NSLog(@"Is muted value afterward %d", muted);
+}
+
+- (void)turnOnMusic {
+    if ([[SimpleAudioEngine sharedEngine] mute]) {
+        // This will unmute the sound
+        muted = FALSE;
+        // [[SimpleAudioEngine sharedEngine] setMute:0];
+    }
+    else {
+        //This will mute the sound
+        muted = TRUE;
+        //[[SimpleAudioEngine sharedEngine] setMute:1];
+    }
+    [[SimpleAudioEngine sharedEngine] setMute:muted];
+    //NSLog(@"in mute Siund %d", muted);
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:muted forKey:@"IsMuted"];
+    [defaults synchronize];
+}
 - (CCAction*)createBlinkAnim:(BOOL)isTarget {
     NSMutableArray *walkAnimFrames = [NSMutableArray array];
     
@@ -575,15 +642,18 @@ enum {
         if (bodyA->GetUserData() != NULL && bodyB->GetUserData() != NULL) {
             CCSprite *spriteA = (CCSprite *) bodyA->GetUserData();
             CCSprite *spriteB = (CCSprite *) bodyB->GetUserData();
-            
+            if (spriteA.tag == 11 || spriteB.tag == 11) [MusicHandler playBounce];
+
             // Is sprite A a cat and sprite B a car? 
             if (spriteA.tag == 88 && spriteB.tag == 11) {
                 NSLog(@"Game Ended");
+                [MusicHandler playWater];
                 [[CCDirector sharedDirector] replaceScene:[GameOverScene node]];
 
             } 
             // Is sprite A a car and sprite B a cat?  
             else if (spriteA.tag == 11 && spriteB.tag == 88) {
+                [MusicHandler playWater];
                 NSLog(@"Game Ended");
                 [[CCDirector sharedDirector] replaceScene:[GameOverScene node]];
 
