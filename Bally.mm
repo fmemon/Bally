@@ -135,6 +135,11 @@ enum {
         [self addChild:sprite2 z:-11];
         
         
+        //spritesheet
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"matty.plist"];
+        CCSpriteBatchNode* spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"matty.png"];
+        [self addChild:spriteSheet];
+        
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
@@ -152,8 +157,8 @@ enum {
 
 -(void)addPolygon1:(CGPoint)newPoint {
 
-    newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
-    newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
+    //newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
+    //newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
 
     //polygon1
     bodyDef.type=b2_dynamicBody;
@@ -168,7 +173,9 @@ enum {
     fd.shape = &boxy;
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
+    fd.restitution = 0.9000000f; //was 0.6 now faster
+
+    
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
@@ -237,7 +244,7 @@ enum {
     fd.shape = &boxy;
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
+    fd.restitution = 0.9f;
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);        
@@ -368,7 +375,8 @@ enum {
     [self addChild:spriteSheet];
     
     //ball
-    CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
+   // CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
+    CCSprite *sprite = [CCSprite spriteWithFile:@"blinkie1.png"];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:3 tag:11];
     bodyDef.userData = sprite;
@@ -388,16 +396,13 @@ enum {
     // fd.restitution = 0.600000f;
     fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
     fd.friction = 0.0f;
-    //fd.restitution = 1.0f; toobouncy
-    fd.restitution = 0.8f;
+    fd.restitution = 1.0f; //toobouncy
+    //fd.restitution = 0.8f;
     
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     ball->CreateFixture(&fd);
-    
-    
-
     
     
     //Revolute joints
@@ -433,6 +438,33 @@ enum {
 
 - (void)gotoHS {
     [[CCDirector sharedDirector] replaceScene:[GameOverScene node]];
+}
+
+
+- (CCAction*)createBlinkAnim:(BOOL)isTarget {
+    NSMutableArray *walkAnimFrames = [NSMutableArray array];
+    
+        for (int i=1; i<3; i++) {
+            [walkAnimFrames addObject:[CCSprite spriteWithFile:[NSString stringWithFormat:@"blinkie%i.png", i]]];
+        }
+
+    CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
+    
+    CCAnimate *blink = [CCAnimate actionWithDuration:0.2f animation:walkAnim restoreOriginalFrame:YES];
+    
+    CCAction *walkAction = [CCRepeatForever actionWithAction:
+                            [CCSequence actions:
+                             [CCDelayTime actionWithDuration:CCRANDOM_0_1()*2.0f],
+                             blink,
+                             [CCDelayTime actionWithDuration:CCRANDOM_0_1()*3.0f],
+                             blink,
+                             [CCDelayTime actionWithDuration:CCRANDOM_0_1()*0.2f],
+                             blink,
+                             [CCDelayTime actionWithDuration:CCRANDOM_0_1()*2.0f],
+                             nil]
+                            ];
+    
+    return walkAction;
 }
 
 -(void) draw
