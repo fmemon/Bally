@@ -121,6 +121,12 @@ enum {
 
         [self compoundBody];
         
+        //background
+        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand.png"];
+        sprite2.position = ccp(screenSize.width/2, screenSize.height/2);
+        //sprite2.anchorPoint = CGPointZero;
+        [self addChild:sprite2 z:-11];
+        
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
@@ -314,6 +320,24 @@ enum {
     
     //Circles
     
+    
+    //circle2
+    bodyDef.position.Set(9.361702f, 4.276596f);
+    bodyDef.angle = 0.000000f;
+    b2Body* circle2 = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    circle2->SetLinearVelocity(initVel);
+    circle2->SetAngularVelocity(0.000000f);
+    circleShape.m_radius = 1.175038f;
+    fd.shape = &circleShape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    circle2->CreateFixture(&fd);
+    
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"rolly.plist"];
     CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"rolly.png"];
     [self addChild:spriteSheet];
@@ -348,22 +372,7 @@ enum {
     ball->CreateFixture(&fd);
     
     
-    //circle2
-    bodyDef.position.Set(9.361702f, 4.276596f);
-    bodyDef.angle = 0.000000f;
-    b2Body* circle2 = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    circle2->SetLinearVelocity(initVel);
-    circle2->SetAngularVelocity(0.000000f);
-    circleShape.m_radius = 1.175038f;
-    fd.shape = &circleShape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    circle2->CreateFixture(&fd);
+
     
     
     //Revolute joints
