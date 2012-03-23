@@ -464,7 +464,7 @@ enum {
     CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
     ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:ballSprite z:3 tag:11];
-    //[ballSprite runAction:[self createBlinkAnim:YES]];
+    [ballSprite runAction:[self createBlinkAnim:YES]];
 
     bodyDef.userData = ballSprite;
     bodyDef.position.Set(0.468085f, 9.574468f);
@@ -563,11 +563,8 @@ enum {
 - (CCAction*)createBlinkAnim:(BOOL)isTarget {
     NSMutableArray *walkAnimFrames = [NSMutableArray array];
     
-
-    
-    [walkAnimFrames addObject:[CCSprite spriteWithSpriteFrameName:@"blinkie1.png"]];
-    [walkAnimFrames addObject:[CCSprite spriteWithSpriteFrameName:@"blinkie2.png"]];
-
+[walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blinkie1.png"]];
+    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blinkie2.png"]];
 
     CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
     
