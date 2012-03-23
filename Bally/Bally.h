@@ -32,13 +32,17 @@
     
     MyContactListener *contactListener;
     
+    b2PolygonShape boxy;
+
+    
 }
 
 // returns a CCScene that contains the Bally as the only child
 +(CCScene *) scene;
 // adds a new sprite at a given coordinate
--(void) addNewSpriteWithCoords:(CGPoint)p;
+-(void)addPolygon1:(CGPoint)pos;
 -(void)compoundBody;
+- (float)randomValueBetween:(float)low andValue:(float)high;
 
 
 @end

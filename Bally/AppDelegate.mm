@@ -43,6 +43,10 @@
 
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+    
+    //random seed
+    srand( (unsigned)time( NULL ) );
+    
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	

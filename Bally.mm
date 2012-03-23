@@ -12,6 +12,10 @@
 #import "MyContactListener.h"
 #import "GameOverScene.h"
 
+/// returns a random float between X and Y
+#define CCRANDOM_X_Y(__X__, __Y__) new_xor128_float_x_y((__X__), (__Y__))
+
+
 //Pixel to metres ratio. Box2D uses metres as the unit for measurement.
 //This ratio defines how many pixels correspond to 1 Box2D "metre"
 //Box2D is optimized for objects of 1x1 metre therefore it makes sense
@@ -42,6 +46,10 @@ enum {
 	
 	// return the scene
 	return scene;
+}
+
+- (float)randomValueBetween:(float)low andValue:(float)high {
+    return (((float) arc4random() / 0xFFFFFFFFu) * (high - low)) + low;
 }
 
 
@@ -119,7 +127,6 @@ enum {
         shape.SetAsEdge(b2Vec2(0.000000f, 10.000000f), b2Vec2(0.000000f, 0.000000f)); //;left wall
         groundBody->CreateFixture(&shape,0);
 
-        [self compoundBody];
         
         //background
         CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand.png"];
@@ -131,6 +138,10 @@ enum {
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
+        [self addPolygon1:CGPointMake(4.764226f, 7.320508f)];
+        [self compoundBody];
+
+        
         [self schedule: @selector(tick:)]; 
         
     }
@@ -139,16 +150,19 @@ enum {
     
 }
 
--(void)compoundBody {
+-(void)addPolygon1:(CGPoint)newPoint {
+
+    newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
+    newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
+
     //polygon1
     bodyDef.type=b2_dynamicBody;
-    bodyDef.position.Set(4.764226f, 7.320508f);
+    bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
     b2Body* polygon1 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     polygon1->SetLinearVelocity(initVel);
     polygon1->SetAngularVelocity(0.000000f);
-    b2PolygonShape boxy;
     boxy.SetAsBox(1.65f, 0.35f);
     
     fd.shape = &boxy;
@@ -169,6 +183,17 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
+    
+    
+    pos.Set(newPoint.x, newPoint.y);;
+    revJointDef.Initialize(polygon1, ground, pos);
+    revJointDef.collideConnected = false;
+    world->CreateJoint(&revJointDef);
+}
+
+
+-(void)compoundBody {
+
     
     
     //polygon2
@@ -376,11 +401,7 @@ enum {
     
     
     //Revolute joints
-    
-    pos.Set(4.764226f, 7.320508f);
-    revJointDef.Initialize(polygon1, ground, pos);
-    revJointDef.collideConnected = false;
-    world->CreateJoint(&revJointDef);
+
     pos.Set(1.779086f, 5.100423f);
     revJointDef.Initialize(polygon2, ground, pos);
     revJointDef.collideConnected = false;
