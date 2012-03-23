@@ -8,6 +8,7 @@
 
 #import "GameOverScene.h"
 #import "Bally.h"
+#import "SimpleAudioEngine.h"
 
 @implementation GameOverScene
 
@@ -103,7 +104,47 @@
 		[self addChild:menu z:11];
        */ 
         
+        //background
+        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand.png"];
+        sprite2.anchorPoint = CGPointZero;
+        //sprite2.position = ccp(screenSize.width/2, screenSize.height/2);
+        sprite2.position = CGPointZero;
+        //sprite2.anchorPoint = CGPointZero;
+        [self addChild:sprite2 z:-11];
+        
         [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        
+        
+        //initial settings
+        muted = FALSE;
+        [self restoreData];
+        
+        
+        //sound
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        // Enable touches        
+        //[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        //Pause Toggle can not sure frame cache for sprites!!!!!
+		CCMenuItemSprite *playItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
+                                                             selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
+        
+		CCMenuItemSprite *pauseItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
+                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseOFFSelect.png"]];
+        CCMenuItemToggle *pause;
+		if (!muted)  {
+            pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem, pauseItem, nil];
+            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        else {
+            pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:pauseItem, playItem, nil];
+            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        
+        
+		//Create Menu with the items created before
+		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
+		menu.position = CGPointZero;
+		[self addChild:menu z:11];
 
         tapLabel = [CCLabelTTF labelWithString:@"All Rights Reserved 2012 info@BestWhich.com" fontName:@"Arial" fontSize:16];
 		tapLabel.position = ccp(229, 15.0f);    
@@ -113,6 +154,40 @@
     return self; 
 }
 
+
+
+- (void)restoreData {
+    // Get the stored data before the view loads
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // NSLog(@"Is muted value BEFORE %d", muted);
+    
+    if ([defaults boolForKey:@"IsMuted"]) {
+        muted = [defaults boolForKey:@"IsMuted"];
+    }
+    
+    //NSLog(@"Is muted value afterward %d", muted);
+}
+
+- (void)turnOnMusic {
+    if ([[SimpleAudioEngine sharedEngine] mute]) {
+        // This will unmute the sound
+        muted = FALSE;
+        // [[SimpleAudioEngine sharedEngine] setMute:0];
+    }
+    else {
+        //This will mute the sound
+        muted = TRUE;
+        //[[SimpleAudioEngine sharedEngine] setMute:1];
+    }
+    [[SimpleAudioEngine sharedEngine] setMute:muted];
+    //NSLog(@"in mute Siund %d", muted);
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:muted forKey:@"IsMuted"];
+    [defaults synchronize];
+}
 
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     [[CCDirector sharedDirector] replaceScene:[Bally scene]];

@@ -461,10 +461,12 @@ enum {
     
     //ball
    // CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
-    sprite = [CCSprite spriteWithFile:@"blinkie1.png"];
-    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:3 tag:11];
-    bodyDef.userData = sprite;
+    CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
+    ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:ballSprite z:3 tag:11];
+    //[ballSprite runAction:[self createBlinkAnim:YES]];
+
+    bodyDef.userData = ballSprite;
     bodyDef.position.Set(0.468085f, 9.574468f);
     bodyDef.angle = 0.000000f;
     ball = world->CreateBody(&bodyDef);
@@ -530,13 +532,13 @@ enum {
     // Get the stored data before the view loads
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    // NSLog(@"Is muted value BEFORE %d", muted);
+     NSLog(@"Is muted value BEFORE %d", muted);
     
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
     }
     
-    //NSLog(@"Is muted value afterward %d", muted);
+    NSLog(@"Is muted value afterward %d", muted);
 }
 
 - (void)turnOnMusic {
@@ -561,9 +563,11 @@ enum {
 - (CCAction*)createBlinkAnim:(BOOL)isTarget {
     NSMutableArray *walkAnimFrames = [NSMutableArray array];
     
-        for (int i=1; i<3; i++) {
-            [walkAnimFrames addObject:[CCSprite spriteWithFile:[NSString stringWithFormat:@"blinkie%i.png", i]]];
-        }
+
+    
+    [walkAnimFrames addObject:[CCSprite spriteWithSpriteFrameName:@"blinkie1.png"]];
+    [walkAnimFrames addObject:[CCSprite spriteWithSpriteFrameName:@"blinkie2.png"]];
+
 
     CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
     

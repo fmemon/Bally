@@ -29,11 +29,15 @@ typedef enum
     MyContactListener* contactListener;
     GLESDebugDraw* debugDraw;
     CCLabelTTF* tapLabel;
+    
+    BOOL muted;
+
 }
 
 +(id) scene;
 +(GameOverScene*) sharedGameOverScene;
--(CCSpriteBatchNode*) getSpriteBatch;
--(void) gameOver;
+//-(CCSpriteBatchNode*) getSpriteBatch;
+//-(void) gameOver;
+- (void)restoreData;
 
 @end

@@ -48,5 +48,6 @@
 - (float)randomValueBetween:(float)low andValue:(float)high;
 - (void)turnOnMusic;
 - (void)restoreData;
+- (CCAction*)createBlinkAnim:(BOOL)isTarget;
 
 @end
