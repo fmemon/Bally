@@ -45,7 +45,6 @@
 // returns a CCScene that contains the Bally as the only child
 +(CCScene *) scene;
 // adds a new sprite at a given coordinate
--(void)addPolygon1:(CGPoint)pos;
 -(void)compoundBody;
 - (float)randomValueBetween:(float)low andValue:(float)high;
 - (void)turnOnMusic;
@@ -57,6 +56,10 @@
 -(void)starterLedgeAndBall;
 -(void)ShortShort:(CGPoint)newPoint;
 -(void)ShortLong:(CGPoint)newPoint;
-
+-(void)LargeCircle:(CGPoint)newPoint;    
+-(void)Slant:(CGPoint)newPoint;
+-(void)Block:(CGPoint)newPoint;
+-(void)Triangle:(CGPoint)newPoint;
+-(void)Polygon1:(CGPoint)pos;
 
 @end

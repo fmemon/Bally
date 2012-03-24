@@ -217,50 +217,6 @@ enum {
     return self; 
 }
 
--(void)addPolygon1:(CGPoint)newPoint {
-
-    newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
-    newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
-
-    //polygon1
-    bodyDef.type=b2_dynamicBody;
-    bodyDef.position.Set(newPoint.x, newPoint.y);
-    bodyDef.angle = 0.000000f;
-    b2Body* polygon1 = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    polygon1->SetLinearVelocity(initVel);
-    polygon1->SetAngularVelocity(0.000000f);
-    boxy.SetAsBox(1.65f, 0.35f);
-    
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.9000000f; //was 0.6 now faster
-
-    
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon1->CreateFixture(&fd);
-    
-    boxy.SetAsBox(0.35f,1.65f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon1->CreateFixture(&fd);
-    
-    
-    pos.Set(newPoint.x, newPoint.y);;
-    revJointDef.Initialize(polygon1, ground, pos);
-    revJointDef.collideConnected = false;
-    world->CreateJoint(&revJointDef);
-}
-
-
 -(void)setupBoard {    
     //stores the number of cells avaible 4 across x 3 down
     NSMutableArray *cellNum = [NSMutableArray arrayWithCapacity:30];
@@ -305,7 +261,7 @@ enum {
     
 
     int posKey, posValue;
-    for (int i=4;i <7; i++) {
+    for (int i=4;i <12; i++) {
         posKey = (int)arc4random() % ([cellNum count]);
         posValue = [[cellNum  objectAtIndex: posKey] integerValue]; //or arc4random() & 3
         
@@ -323,10 +279,15 @@ enum {
     [self starterLedgeAndBall];
 
 
-    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
-    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
+    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
+    [self ShortShort:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
     [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:4] integerValue]]];
-
+    [self Block:[self calcNewPoint:[[whichCell objectAtIndex:6] integerValue]]];
+    [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:7] integerValue]]];
+    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:8] integerValue]]];
+    [self LargeCircle:[self calcNewPoint:[[whichCell objectAtIndex:9] integerValue]]];
+    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:10] integerValue]]];
+    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:11] integerValue]]];
     
 }
 
@@ -620,7 +581,8 @@ enum {
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     [self addChild:sprite];
     bodyDef1.userData = sprite;
-    bodyDef1.position.Set(8.670213f, 1.212766f);
+    //bodyDef1.position.Set(8.670213f, 1.212766f);
+    bodyDef1.position.Set(newPoint.x, newPoint.y);
     bodyDef1.angle = -0.507438f;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
@@ -641,6 +603,130 @@ enum {
     fd.filter.maskBits = uint16(65535);
     staticBody3->CreateFixture(&shape,0);
 }
+
+-(void)LargeCircle:(CGPoint)newPoint {    
+    //circle2
+   // bodyDef.position.Set(9.361702f, 4.276596f);
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(newPoint.x, newPoint.y);
+    bodyDef.angle = 0.000000f;
+    b2Body* circle2 = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    circle2->SetLinearVelocity(initVel);
+    circle2->SetAngularVelocity(0.000000f);
+    circleShape.m_radius = 1.175038f;
+    fd.shape = &circleShape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    circle2->CreateFixture(&fd);
+}
+
+-(void)Triangle:(CGPoint)newPoint {
+    //block
+    //    /bodyDef.position.Set(11.914894f, 0.882979f);
+    bodyDef.position.Set(newPoint.x, newPoint.y);
+    bodyDef.angle = 0.000000f;
+    sprite =nil;
+//    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"metalTexture.png"];
+ //   sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
+ //   [self addChild:sprite];
+  //  bodyDef.userData=sprite;
+    b2Body* block = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    block->SetLinearVelocity(initVel);
+    block->SetAngularVelocity(0.000000f);
+    b2Vec2 vertices[3];
+    vertices[0].Set(-1.5f, 0.0f);
+    vertices[1].Set(1.5f, 0.0f);
+    vertices[2].Set(0.0f, 1.5f);
+    shape.Set(vertices, 3);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    block->CreateFixture(&fd);
+    
+}
+
+-(void)Block:(CGPoint)newPoint {
+    //block
+//    /bodyDef.position.Set(11.914894f, 0.882979f);
+    bodyDef.position.Set(newPoint.x, newPoint.y);
+    bodyDef.angle = 0.000000f;
+    sprite =nil;
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
+    [self addChild:sprite];
+    bodyDef.userData=sprite;
+    b2Body* block = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    block->SetLinearVelocity(initVel);
+    block->SetAngularVelocity(0.000000f);
+    b2Vec2 block_vertices[4];
+    block_vertices[0].Set(-0.851064f, -0.840426f);
+    block_vertices[1].Set(0.851064f, -0.840426f);
+    block_vertices[2].Set(0.851064f, 0.840426f);
+    block_vertices[3].Set(-0.851064f, 0.840426f);
+    shape.Set(block_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    block->CreateFixture(&fd);
+    
+}
+
+
+-(void)Polygon1:(CGPoint)newPoint {
+    
+    //polygon1
+    bodyDef.type=b2_dynamicBody;
+    if (newPoint.x < 3.0f && newPoint.y > 9.0f)  bodyDef.position.Set(newPoint.x+1.0, newPoint.y-1.0);
+    else bodyDef.position.Set(newPoint.x, newPoint.y);
+    bodyDef.angle = 0.000000f;
+    b2Body* polygon1 = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    polygon1->SetLinearVelocity(initVel);
+    polygon1->SetAngularVelocity(0.000000f);
+    boxy.SetAsBox(1.65f, 0.35f);
+    
+    fd.shape = &boxy;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.9000000f; //was 0.6 now faster
+    
+    
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    polygon1->CreateFixture(&fd);
+    
+    boxy.SetAsBox(0.35f,1.65f);
+    fd.shape = &boxy;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    polygon1->CreateFixture(&fd);
+    
+    
+    pos.Set(newPoint.x, newPoint.y);;
+    revJointDef.Initialize(polygon1, ground, pos);
+    revJointDef.collideConnected = false;
+    world->CreateJoint(&revJointDef);
+}
+
 
 -(void)starterLedgeAndBall {
     //staticBody1
