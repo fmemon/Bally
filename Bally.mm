@@ -232,7 +232,7 @@ enum {
     }
     
     NSMutableArray *whichCell = [NSMutableArray arrayWithCapacity:30];
-    
+ /*   
     //do the first 3 types via shuffling
     srandom(time(NULL));
     
@@ -257,11 +257,11 @@ enum {
     NSLog(@"shuffle array before : %@", cellRow);
     NSLog(@"shuffle array WhichCell : %@", whichCell);
     NSLog(@"shuffle array cellNum : %@", cellNum);
-
+*/
     
 
     int posKey, posValue;
-    for (int i=4;i <12; i++) {
+    for (int i=0;i <16; i++) {
         posKey = (int)arc4random() % ([cellNum count]);
         posValue = [[cellNum  objectAtIndex: posKey] integerValue]; //or arc4random() & 3
         
@@ -279,15 +279,39 @@ enum {
     [self starterLedgeAndBall];
 
 
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
+ /*   [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
     [self ShortShort:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
     [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:4] integerValue]]];
-    [self Block:[self calcNewPoint:[[whichCell objectAtIndex:6] integerValue]]];
-    [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:7] integerValue]]];
-    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:8] integerValue]]];
-    [self LargeCircle:[self calcNewPoint:[[whichCell objectAtIndex:9] integerValue]]];
-    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:10] integerValue]]];
-    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:11] integerValue]]];
+ */
+    int i = 0;
+    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    
+  /*  //checking if they overlap for every fixture created
+    if (!b2TestOverlap(polygon1->GetFixtureList()->GetShape(), fixtureB->GetShape(),
+                       fixtureA->GetBody()->GetTransform(), fixtureB->GetBody()->GetTransform())) {
+        continue; //they don't => ignore contact
+    }
+    */
+    
+    
+    
+    
+    [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self LargeCircle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self LargeCircle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Short:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Short:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Block:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Short:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Block:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
+
     
 }
 
@@ -415,6 +439,33 @@ enum {
     NSLog(@"whichCell is %i and the CGPoint is x:%f y:%f",0,newPoint.x, newPoint.y  );
 
     return newPoint;
+}
+-(void)Short:(CGPoint)newPoint {
+    
+    //staticBody2 Long
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0,1.0f*64.0f, 0.4f*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
+    bodyDef1.position.Set(newPoint.x, newPoint.y);
+    bodyDef1.angle = -0.025254f;
+    b2Body* staticBody2 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody2->SetLinearVelocity(initVel);
+    staticBody2->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody2_vertices[4];
+    staticBody2_vertices[0].Set(-1.0f, -0.40f);
+    staticBody2_vertices[1].Set(1.0f, -0.40f);
+    staticBody2_vertices[2].Set(1.0f, 0.40f);
+    staticBody2_vertices[3].Set(-1.0f, 0.40f);
+    shape.Set(staticBody2_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody2->CreateFixture(&shape,0);
 }
 
 -(void)LongShort:(CGPoint)newPoint {
@@ -606,8 +657,11 @@ enum {
 
 -(void)LargeCircle:(CGPoint)newPoint {    
     //circle2
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.6f*64.0f, 0.40*64.0f)];
+    [self addChild:sprite z:3 tag:33];
+    bodyDef1.userData = sprite;
    // bodyDef.position.Set(9.361702f, 4.276596f);
-    bodyDef.type = b2_dynamicBody;
+    bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
     bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
     b2Body* circle2 = world->CreateBody(&bodyDef);
@@ -627,6 +681,9 @@ enum {
 
 -(void)Triangle:(CGPoint)newPoint {
     //block
+    
+    
+    bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
     //    /bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
@@ -658,6 +715,8 @@ enum {
 -(void)Block:(CGPoint)newPoint {
     //block
 //    /bodyDef.position.Set(11.914894f, 0.882979f);
+    bodyDef.userData = nil;
+    bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
     bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
     sprite =nil;
@@ -689,11 +748,13 @@ enum {
 -(void)Polygon1:(CGPoint)newPoint {
     
     //polygon1
+    bodyDef.userData = nil;
+
     bodyDef.type=b2_dynamicBody;
     if (newPoint.x < 3.0f && newPoint.y > 9.0f)  bodyDef.position.Set(newPoint.x+1.0, newPoint.y-1.0);
     else bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
-    b2Body* polygon1 = world->CreateBody(&bodyDef);
+    polygon1 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     polygon1->SetLinearVelocity(initVel);
     polygon1->SetAngularVelocity(0.000000f);

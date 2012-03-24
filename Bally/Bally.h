@@ -39,7 +39,7 @@
     BOOL muted;
     CCSprite *sprite;
     CCTexture2D *texture;
-    
+    b2Body* polygon1;
 }
 
 // returns a CCScene that contains the Bally as the only child
@@ -54,6 +54,7 @@
 -(void)LongShort:(CGPoint)newPoint;
 -(CGPoint)calcNewPoint:(int)cellNum;
 -(void)starterLedgeAndBall;
+-(void)Short:(CGPoint)newPoint;
 -(void)ShortShort:(CGPoint)newPoint;
 -(void)ShortLong:(CGPoint)newPoint;
 -(void)LargeCircle:(CGPoint)newPoint;    
