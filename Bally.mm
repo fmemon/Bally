@@ -285,7 +285,7 @@ enum {
     
     //do the first 3 types via shuffling
     
-    NSLog(@"shuffle array before : %@", cellRow);
+   // NSLog(@"shuffle array before : %@", cellRow);
     //randomise the nArray
     srandom(time(NULL));
     
@@ -309,11 +309,11 @@ enum {
         [cellNum removeObjectsInArray:whichCell];
     }
 
-    
+ /*   
     NSLog(@"shuffle array before : %@", cellRow);
     NSLog(@"shuffle array WhichCell : %@", whichCell);
     NSLog(@"shuffle array cellNum : %@", cellNum);
-
+*/
     
 
     int posKey, posValue;
@@ -324,35 +324,20 @@ enum {
         [whichCell addObject:[NSNumber numberWithInt:posValue]];
         [cellNum removeObjectAtIndex:posKey];
         
-        NSLog(@"posKey %i and posValue  %i",posKey, posValue);
+        //NSLog(@"posKey %i and posValue  %i",posKey, posValue);
     }
     
-    NSLog(@"shuffle array WhichCell : %@", whichCell);
-    NSLog(@"shuffle array cellNum : %@", cellNum);
+//    NSLog(@"shuffle array WhichCell : %@", whichCell);
+  //  NSLog(@"shuffle array cellNum : %@", cellNum);
 
     
-    //actaully add the pieces the screen
-   // CGPoint newPoint;
-   // newPoint.x = [self randomValueBetween:1.5 andValue:[[whichCell objectAtIndex:0] integerValue]];
-   // newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
-    //[self LongShort:newPoint];
-
-    for (int i = 0;i < [whichCell count];i++) {
-        
-        if (i ==1 || i == 3 || i == 5) continue;
-        CGPoint newPoint =[self calcNewPoint:[[whichCell objectAtIndex:i] integerValue]];
-        NSLog(@"cellNum is %i and the CGPoint is x:%f y:%f",[[whichCell objectAtIndex:i] integerValue],newPoint.x, newPoint.y  );
-    }
-    
+    //add the pieces the screen
     [self starterLedgeAndBall];
 
 
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:1] integerValue]]];
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:3] integerValue]]];
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:4] integerValue]]];
-    [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:5] integerValue]]];
+    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
+    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
+    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:4] integerValue]]];
 
     
 }
@@ -361,28 +346,7 @@ enum {
 
     int multiplierY = 1;
     int multiplierX = 4;
-    int remainder = cellNum % 4;
-    
-    if (cellNum >=9) {
-        multiplierY = 1;
-    } else if (cellNum >=5){
-        multiplierY = 2;
-    }else {
-        multiplierY = 3;
-    }
-    
-    if (cellNum == 0)multiplierX = 0;
-    else if (remainder == 0) multiplierX = 4;
-    else if (remainder == 1) multiplierX = 1;
-    else if (remainder == 2) multiplierX = 2;
-    else if (remainder == 3) multiplierX = 3;
-    
-   // CGPoint newPoint = CGPointMake(1.0f + (multiplierX *3.0f),1.5f + (multiplierY * 3.0f) );
-    
-    
-    
-    //float lowX, highX, lowY, highY;
-    
+       
     switch(cellNum) {
         case 0:
             multiplierX = 0;
@@ -437,8 +401,8 @@ enum {
 
      CGPoint starterPoint = CGPointMake(1.0f + (multiplierX *3.0f),1.5f + (multiplierY * 3.0f) );
     CGPoint newPoint;
-    newPoint.x = [self randomValueBetween:starterPoint.x andValue:starterPoint.x+3.0f];
-    newPoint.y = [self randomValueBetween:starterPoint.y andValue:starterPoint.y+3.0f];
+    newPoint.x = [self randomValueBetween:starterPoint.x andValue:starterPoint.x+2.5f];
+    newPoint.y = [self randomValueBetween:starterPoint.y andValue:starterPoint.y+2.5f];
     NSLog(@"whichCell is %i and the CGPoint is x:%f y:%f",0,newPoint.x, newPoint.y  );
 
     return newPoint;
@@ -447,7 +411,7 @@ enum {
 -(void)LongShort:(CGPoint)newPoint {
 
     //staticBody2 Long
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.5f*64.0f, 0.36*64.0f)];
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.5f*64.0f, 0.40*64.0f)];
     [self addChild:sprite];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(newPoint.x, newPoint.y);
@@ -457,10 +421,10 @@ enum {
     staticBody2->SetLinearVelocity(initVel);
     staticBody2->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody2_vertices[4];
-    staticBody2_vertices[0].Set(-1.5f, -0.361702f);
-    staticBody2_vertices[1].Set(1.5f, -0.361702f);
-    staticBody2_vertices[2].Set(1.5f, 0.361702f);
-    staticBody2_vertices[3].Set(-1.5f, 0.361702f);
+    staticBody2_vertices[0].Set(-1.5f, -0.40f);
+    staticBody2_vertices[1].Set(1.5f, -0.40f);
+    staticBody2_vertices[2].Set(1.5f, 0.40f);
+    staticBody2_vertices[3].Set(-1.5f, 0.40f);
     shape.Set(staticBody2_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -473,18 +437,17 @@ enum {
     
     
     //staticBody4 short
-    //bodyDef.userData = sprite;
-    bodyDef1.position.Set(newPoint.x + 4.1f, newPoint.y);
+    bodyDef1.position.Set(newPoint.x + 3.0f, newPoint.y);
     bodyDef1.angle = 0.020196f;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
     staticBody4->SetLinearVelocity(initVel);
     staticBody4->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody4_vertices[4];
-    staticBody4_vertices[0].Set(-1.723404f, -0.404255f);
-    staticBody4_vertices[1].Set(1.723404f, -0.404255f);
-    staticBody4_vertices[2].Set(1.723404f, 0.404255f);
-    staticBody4_vertices[3].Set(-1.723404f, 0.404255f);
+    staticBody4_vertices[0].Set(-0.6f, -0.40f);
+    staticBody4_vertices[1].Set(0.6f, -0.40f);
+    staticBody4_vertices[2].Set(0.6f, 0.40f);
+    staticBody4_vertices[3].Set(-0.6f, 0.40f);
     shape.Set(staticBody4_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -494,6 +457,113 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     staticBody4->CreateFixture(&shape,0);
+    
+}
+
+-(void)ShortLong:(CGPoint)newPoint {
+    
+    
+    //staticBody4 short
+    bodyDef1.position.Set(newPoint.x + 3.0f, newPoint.y);
+    bodyDef1.angle = 0.020196f;
+    b2Body* staticBody4 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody4->SetLinearVelocity(initVel);
+    staticBody4->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody4_vertices[4];
+    staticBody4_vertices[0].Set(-0.6f, -0.40f);
+    staticBody4_vertices[1].Set(0.6f, -0.40f);
+    staticBody4_vertices[2].Set(0.6f, 0.40f);
+    staticBody4_vertices[3].Set(-0.6f, 0.40f);
+    shape.Set(staticBody4_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody4->CreateFixture(&shape,0);
+    
+    //staticBody2 Long
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.5f*64.0f, 0.40*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
+    bodyDef1.position.Set(newPoint.x, newPoint.y);
+    bodyDef1.angle = -0.025254f;
+    b2Body* staticBody2 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody2->SetLinearVelocity(initVel);
+    staticBody2->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody2_vertices[4];
+    staticBody2_vertices[0].Set(-1.5f, -0.40f);
+    staticBody2_vertices[1].Set(1.5f, -0.40f);
+    staticBody2_vertices[2].Set(1.5f, 0.40f);
+    staticBody2_vertices[3].Set(-1.5f, 0.40f);
+    shape.Set(staticBody2_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody2->CreateFixture(&shape,0);
+    
+
+    
+}
+
+-(void)ShortShort:(CGPoint)newPoint {
+    
+    //staticBody2 Long
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.6f*64.0f, 0.40*64.0f)];
+    [self addChild:sprite];
+    bodyDef1.userData = sprite;
+    bodyDef1.position.Set(newPoint.x, newPoint.y);
+    bodyDef1.angle = -0.025254f;
+    b2Body* staticBody2 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody2->SetLinearVelocity(initVel);
+    staticBody2->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody2_vertices[4];
+    staticBody2_vertices[0].Set(-0.6f, -0.40f);
+    staticBody2_vertices[1].Set(0.6f, -0.40f);
+    staticBody2_vertices[2].Set(0.6f, 0.40f);
+    staticBody2_vertices[3].Set(-0.6f, 0.40f);
+    shape.Set(staticBody2_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody2->CreateFixture(&shape,0);
+    
+    
+    //staticBody4 short
+    bodyDef1.position.Set(newPoint.x + 2.2f, newPoint.y);
+    bodyDef1.angle = 0.020196f;
+    b2Body* staticBody4 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody4->SetLinearVelocity(initVel);
+    staticBody4->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody4_vertices[4];
+    staticBody4_vertices[0].Set(-0.6f, -0.40f);
+    staticBody4_vertices[1].Set(0.6f, -0.40f);
+    staticBody4_vertices[2].Set(0.6f, 0.40f);
+    staticBody4_vertices[3].Set(-0.6f, 0.40f);
+    shape.Set(staticBody4_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody4->CreateFixture(&shape,0);
+
     
 }
 

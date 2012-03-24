@@ -55,6 +55,8 @@
 -(void)LongShort:(CGPoint)newPoint;
 -(CGPoint)calcNewPoint:(int)cellNum;
 -(void)starterLedgeAndBall;
+-(void)ShortShort:(CGPoint)newPoint;
+-(void)ShortLong:(CGPoint)newPoint;
 
 
 @end
