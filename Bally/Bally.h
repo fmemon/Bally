@@ -37,6 +37,8 @@
     b2Body* ball;
     
     BOOL muted;
+    CCSprite *sprite;
+    CCTexture2D *texture;
     
 }
 
@@ -49,5 +51,8 @@
 - (void)turnOnMusic;
 - (void)restoreData;
 - (CCAction*)createBlinkAnim:(BOOL)isTarget;
+-(void)setupBoard; 
+-(void)LongShort:(CGPoint)newPoint;
+
 
 @end

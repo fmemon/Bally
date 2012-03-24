@@ -30,6 +30,13 @@ enum {
 	kTagAnimation1 = 1,
 };
 
+enum {
+	kLongShort = 1,
+	kShortShort,
+	kJack,
+    kSquare
+};
+
 
 // Bally implementation
 @implementation Bally
@@ -153,7 +160,19 @@ enum {
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
+        
+        //adding fixture
+        ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+        texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
+        sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+        //CCSprite *sprite = [CCSprite spriteWithTexture:texture rect:CGRectMake(0, 0, 1.72f*64.0f, 0.4*64.0f)];
+        sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
+        [sprite.texture setTexParameters:&params];
+        //[self addChild:sprite];
+        
         [self addPolygon1:CGPointMake(4.764226f, 7.320508f)];
+        [self addPolygon1:CGPointMake(1.779086f, 5.100423f)];
+        
         [self compoundBody];
 
         
@@ -184,23 +203,20 @@ enum {
 		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
-
         
         
-        
+        [self setupBoard];
         
         [self schedule: @selector(tick:)]; 
         
     }
-    
     return self; 
-    
 }
 
 -(void)addPolygon1:(CGPoint)newPoint {
 
-    //newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
-    //newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
+    newPoint.x = [self randomValueBetween:1.0f andValue:10.0f];
+    newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
 
     //polygon1
     bodyDef.type=b2_dynamicBody;
@@ -241,32 +257,149 @@ enum {
 }
 
 
--(void)texturePolygon {
+-(void)setupBoard {    
+    //stores the number of cells avaible 4 across x 3 down
+    NSMutableArray *cellNum = [NSMutableArray arrayWithCapacity:100];
+    for (int i = 0; i < 12; i++) {
+        [cellNum addObject:[NSNumber numberWithInt:i]];
+    }
+
+    //stores the types of bodies to be placed
+    NSMutableArray *cellType = [NSMutableArray arrayWithCapacity:6];
+    for (int i = 1; i < 7; i++) {
+        [cellType addObject:[NSNumber numberWithInt:i]];
+    }
+
+    //stores the first 3 numbers to be shuffled for which row gets each type 1, 2,3
+    NSMutableArray *cellRow = [NSMutableArray arrayWithCapacity:100];
+    for (int i = 0; i < 3; i++) {
+        [cellRow addObject:[NSNumber numberWithInt:i]];
+    }
 
     
-    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-    //CCTexture2D *texture = [[CCTexture2D alloc] initWithImage:[UIImage imageWithContentsOfFile :[[NSBundle mainBundle] pathForResource:@”texture” ofType:@"png”]]];
-    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
-    CCSprite *sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 15.0f, 60.0f)];
-    sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
-    [sprite.texture setTexParameters:&params];
+    NSMutableArray *whichCell = [NSMutableArray arrayWithCapacity:6];
+    
+    //do the first 3 types via shuffling
+    
+    NSLog(@"shuffle array before : %@", cellRow);
+    //randomise the nArray
+    srandom(time(NULL));
+    
+    for (NSInteger x = 0; x < [cellRow count]; x++)
+    {
+        NSInteger randInt = (random() % ([cellRow count] - x)) + x;
+        [cellRow exchangeObjectAtIndex:x withObjectAtIndex:randInt];
+    }
+    for (NSInteger x = 0; x < [cellRow count]; x++)
+    {
+        int val = [[cellRow objectAtIndex:x] integerValue] + (x*3);
+        [whichCell addObject:[NSNumber numberWithInt:val]];
+        [whichCell addObject:[NSNumber numberWithInt:val+1]];
+    }
+    //now remove these affected cells from our choosing cells
+    for (NSInteger x = 0; x < [cellRow count]; x++)
+    {
+       // int val = [[cellRow objectAtIndex:x] integerValue];
+       // [cellNum removeObjectAtIndex:val];
+        
+        [cellNum removeObjectsInArray:whichCell];
+    }
+
+    
+    NSLog(@"shuffle array before : %@", cellRow);
+    NSLog(@"shuffle array WhichCell : %@", whichCell);
+    NSLog(@"shuffle array cellNum : %@", cellNum);
+
+    
+
+    int posKey, posValue;
+    for (int i=4;i <7; i++) {
+        posKey = (int)arc4random() % ([cellNum count]);
+        posValue = [[cellNum  objectAtIndex: posKey] integerValue]; //or arc4random() & 3
+        
+        [whichCell addObject:[NSNumber numberWithInt:posValue]];
+        [cellNum removeObjectAtIndex:posKey];
+        
+        NSLog(@"posKey %i and posValue  %i",posKey, posValue);
+    }
+    
+    NSLog(@"shuffle array WhichCell : %@", whichCell);
+    NSLog(@"shuffle array cellNum : %@", cellNum);
+
+    
+    //actaully add the pieces the screen
+    CGPoint newPoint;
+    newPoint.x = [self randomValueBetween:1.5 andValue:[[whichCell objectAtIndex:0] integerValue]];
+    newPoint.y = [self randomValueBetween:1.0f andValue:10.0f];
+    [self LongShort:newPoint];
+
+    
+    
+}
+
+-(void)LongShort:(CGPoint)newPoint {
+    //staticBody3
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     [self addChild:sprite];
-
-
+    bodyDef1.userData = sprite;
+    bodyDef1.position.Set(8.670213f, 1.212766f);
+    bodyDef1.angle = -0.507438f;
+    b2Body* staticBody3 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody3->SetLinearVelocity(initVel);
+    staticBody3->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody3_vertices[4];
+    staticBody3_vertices[0].Set(-1.2f, -0.382979f);
+    staticBody3_vertices[1].Set(1.2f, -0.382979f);
+    staticBody3_vertices[2].Set(1.521277f, 0.382979f);
+    staticBody3_vertices[3].Set(-1.521277f, 0.382979f);
+    shape.Set(staticBody3_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody3->CreateFixture(&shape,0);
+    
+    //staticBody4
+    //bodyDef.userData = sprite;
+    bodyDef1.position.Set(11.574468f, 2.851064f);
+    bodyDef1.angle = 0.020196f;
+    b2Body* staticBody4 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody4->SetLinearVelocity(initVel);
+    staticBody4->SetAngularVelocity(0.000000f);
+    b2Vec2 staticBody4_vertices[4];
+    staticBody4_vertices[0].Set(-1.723404f, -0.404255f);
+    staticBody4_vertices[1].Set(1.723404f, -0.404255f);
+    staticBody4_vertices[2].Set(1.723404f, 0.404255f);
+    staticBody4_vertices[3].Set(-1.723404f, 0.404255f);
+    shape.Set(staticBody4_vertices, 4);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    staticBody4->CreateFixture(&shape,0);
 }
 
 -(void)compoundBody {
     
-    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+  /*  ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
     CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
-    CCSprite *sprite;
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     //CCSprite *sprite = [CCSprite spriteWithTexture:texture rect:CGRectMake(0, 0, 1.72f*64.0f, 0.4*64.0f)];
     sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
     [sprite.texture setTexParameters:&params];
     //[self addChild:sprite];
+   */
     
-    //polygon2
+    
+  /*  //polygon2
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.65*64.0f, 0.35*64.0f)];
     [self addChild:sprite];
     bodyDef.userData = sprite;
@@ -297,7 +430,7 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);    
-    
+    */
     
     //staticBody1
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.35*64.0f, 0.20*64.0f)];
@@ -493,12 +626,12 @@ enum {
     
     
     //Revolute joints
-
+/*
     pos.Set(1.779086f, 5.100423f);
     revJointDef.Initialize(polygon2, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef); 
-    
+  */  
     //Hole
     sprite = [CCSprite spriteWithSpriteFrameName:@"hole.png"];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
