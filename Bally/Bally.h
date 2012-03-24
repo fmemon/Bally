@@ -53,6 +53,8 @@
 - (CCAction*)createBlinkAnim:(BOOL)isTarget;
 -(void)setupBoard; 
 -(void)LongShort:(CGPoint)newPoint;
+-(CGPoint)calcNewPoint:(int)cellNum;
+-(void)starterLedgeAndBall;
 
 
 @end
