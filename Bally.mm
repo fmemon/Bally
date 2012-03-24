@@ -263,30 +263,21 @@ enum {
 
 -(void)setupBoard {    
     //stores the number of cells avaible 4 across x 3 down
-    NSMutableArray *cellNum = [NSMutableArray arrayWithCapacity:100];
-    for (int i = 0; i < 12; i++) {
+    NSMutableArray *cellNum = [NSMutableArray arrayWithCapacity:30];
+    for (int i = 0; i < 28; i++) {
         [cellNum addObject:[NSNumber numberWithInt:i]];
     }
 
-    //stores the types of bodies to be placed
-    NSMutableArray *cellType = [NSMutableArray arrayWithCapacity:6];
-    for (int i = 1; i < 7; i++) {
-        [cellType addObject:[NSNumber numberWithInt:i]];
-    }
 
     //stores the first 3 numbers to be shuffled for which row gets each type 1, 2,3
-    NSMutableArray *cellRow = [NSMutableArray arrayWithCapacity:100];
+    NSMutableArray *cellRow = [NSMutableArray arrayWithCapacity:3];
     for (int i = 0; i < 3; i++) {
         [cellRow addObject:[NSNumber numberWithInt:i]];
     }
-
     
-    NSMutableArray *whichCell = [NSMutableArray arrayWithCapacity:6];
+    NSMutableArray *whichCell = [NSMutableArray arrayWithCapacity:30];
     
     //do the first 3 types via shuffling
-    
-   // NSLog(@"shuffle array before : %@", cellRow);
-    //randomise the nArray
     srandom(time(NULL));
     
     for (NSInteger x = 0; x < [cellRow count]; x++)
@@ -303,17 +294,14 @@ enum {
     //now remove these affected cells from our choosing cells
     for (NSInteger x = 0; x < [cellRow count]; x++)
     {
-       // int val = [[cellRow objectAtIndex:x] integerValue];
-       // [cellNum removeObjectAtIndex:val];
-        
         [cellNum removeObjectsInArray:whichCell];
     }
 
- /*   
+   
     NSLog(@"shuffle array before : %@", cellRow);
     NSLog(@"shuffle array WhichCell : %@", whichCell);
     NSLog(@"shuffle array cellNum : %@", cellNum);
-*/
+
     
 
     int posKey, posValue;
@@ -365,37 +353,97 @@ enum {
             multiplierY = 0;
             break;
         case 4:
-            multiplierX = 0;
-            multiplierY = 1;
+            multiplierX = 4;
+            multiplierY = 0;
             break;
         case 5:
+            multiplierX = 5;
+            multiplierY = 0;
+            break;
+        case 6:
+            multiplierX = 6;
+            multiplierY = 0;
+            break;
+        case 7:
+            multiplierX = 7;
+            multiplierY = 0;
+            break;
+        case 8:
+            multiplierX = 8;
+            multiplierY = 0;
+            break;
+        case 9:
+            multiplierX = 0;
+            multiplierY = 1;
+            break;
+        case 10:
             multiplierX = 1;
             multiplierY = 1;
             break;
-        case 6:
+        case 11:
             multiplierX = 2;
             multiplierY = 1;
             break;
-        case 7:
+        case 12:
             multiplierX = 3;
             multiplierY = 1;
             break;
-        case 8:
+        case 13:
+            multiplierX = 4;
+            multiplierY = 1;
+            break;
+        case 14:
+            multiplierX = 5;
+            multiplierY = 1;
+            break;
+        case 15:
+            multiplierX = 6;
+            multiplierY = 1;
+            break;
+        case 16:
+            multiplierX = 7;
+            multiplierY = 1;
+            break;
+        case 17:
+            multiplierX = 8;
+            multiplierY = 1;
+            break;
+        case 18:
             multiplierX = 0;
             multiplierY = 2;
             break;
-        case 9:
+        case 19:
             multiplierX = 1;
             multiplierY = 2;
             break;
-        case 10:
+        case 20:
             multiplierX = 2;
             multiplierY = 2;
             break;
-        case 11:
+        case 21:
             multiplierX = 3;
             multiplierY = 2;
             break;
+        case 22:
+            multiplierX = 4;
+            multiplierY = 2;
+            break;
+        case 23:
+            multiplierX = 5;
+            multiplierY = 2;
+            break;
+        case 24:
+            multiplierX = 6;
+            multiplierY = 2;
+            break;
+        case 25:
+            multiplierX = 7;
+            multiplierY = 2;
+            break;
+        case 26:
+            multiplierX = 8;
+            multiplierY = 2;
+            break;      
         default:break;
     }
 
