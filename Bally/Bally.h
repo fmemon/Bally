@@ -65,5 +65,5 @@
 - (void)saveData;
 - (void)scored:(b2Body*)bodyB;
 -(void)starterBoard;
-
+-(void)randomScreenLayout;
 @end
