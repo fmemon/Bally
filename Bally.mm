@@ -124,8 +124,8 @@ static inline float mtp(float d)
         [self addChild:sprite2 z:-11];
         
         //spritesheet        
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"rolly.plist"];
-        CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"rolly.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bally.plist"];
+        CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"bally.png"];
         [self addChild:spriteSheet];
         
         contactListener = new MyContactListener();
@@ -133,9 +133,10 @@ static inline float mtp(float d)
         
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        NSArray *textureList = [[NSArray alloc] initWithObjects:@"bricks.jpg",@"goldstars1sm.png",@"acorn.png", nil ];
+        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"goldstars1smWbg.png",@"acornsm.png", nil ];
         
-       texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
+        texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % [textureList count]]];
+        //texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
 
         sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
         
@@ -283,6 +284,7 @@ static inline float mtp(float d)
     
     //staticBody2
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
+    sprite.color = ccBLUE;
     [self addChild:sprite];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(5.946951f, 2.903825f);
