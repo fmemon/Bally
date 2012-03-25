@@ -663,14 +663,16 @@ static inline float mtp(float d)
         {
             myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
             self.position = myPosition;
-            [pause runAction:[CCMoveTo actionWithDuration:0.05f 
-                                                   position:ccp(440.0f, pause.position.y)]];
+            pause.position = ccp((screenSize.width*0.06)+480.0f, screenSize.height*0.90f);
+            NSLog(@"xvalue is %f",pause.position.x );
+           // [pause runAction:[CCMoveTo actionWithDuration:0.01f position:ccp(460.0f, pause.position.y)]];
         }
-     /*   else if (position.x < screenSize.width / 2.0f / PTM_RATIO) {
-            [pause runAction:[CCMoveTo actionWithDuration:0.05f 
-                                                 position:ccp(0.0f, pause.position.y)]];
+        else if (position.x < screenSize.width / 2.0f / PTM_RATIO) {
+           // [pause runAction:[CCMoveTo actionWithDuration:0.05f  position:ccp(0.0f, pause.position.y)]];
+            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+
         }
-    */
+    
     }
     
 }
