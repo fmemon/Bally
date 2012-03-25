@@ -50,7 +50,7 @@
     CCLabelTTF *scoreLabel2;
     
     CCMenuItemToggle *pause;
-    NSArray* bodyPointsArray;
+    NSMutableArray* bodyPointsArray;
 }
 
 // returns a CCScene that contains the Bally as the only child

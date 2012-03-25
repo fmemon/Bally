@@ -127,6 +127,11 @@ static inline float mtp(float d)
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bally.plist"];
         CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"bally.png"];
         [self addChild:spriteSheet];
+        [[CCTextureCache sharedTextureCache] addImage:@"brickssm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"goldstars1sm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"acornsm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"blinkie1.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"blinkie2.png" ]; 
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
@@ -195,35 +200,32 @@ static inline float mtp(float d)
         
         [self starterBoard];
         
-        bodyPointsArray = [[NSArray alloc] initWithObjects:
-                           [ NSValue valueWithCGPoint:CGPointMake(4.764226f, 7.320508f)],
-                           [ NSValue valueWithCGPoint:CGPointMake(4.764226f, 7.320508f)],
-                           [ NSValue valueWithCGPoint:CGPointMake(1.779086f, 5.100423f)],
-                           [ NSValue valueWithCGPoint:CGPointMake(1.779086f, 5.100423f)],                           
-        [ NSValue valueWithCGPoint:CGPointMake(5.946951f, 2.903825f)],
-        [ NSValue valueWithCGPoint:CGPointMake(8.670213f, 1.212766f)],
-        [ NSValue valueWithCGPoint:CGPointMake(11.574468f, 2.851064f)],
-        [ NSValue valueWithCGPoint:CGPointMake(11.914894f, 0.882979f)],
-        [ NSValue valueWithCGPoint:CGPointMake(9.361702f, 4.276596f)],
-        [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.574468f)],
+        bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                           [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
+                           [ NSValue valueWithCGPoint:CGPointMake(1.8f, 5.18f)], //polygon2
+                           [ NSValue valueWithCGPoint:CGPointMake(5.98f, 2.8f)], //long
+                           [ NSValue valueWithCGPoint:CGPointMake(8.7f, 1.2f)], //slant
+                           [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
+                           [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                           [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                           [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                           [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                           nil];
+        
+        [bodyPointsArray removeAllObjects];
+        
+        bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                           [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
+                           [ NSValue valueWithCGPoint:CGPointMake(11.8f, 8.18f)], //polygon2
+                           [ NSValue valueWithCGPoint:CGPointMake(5.98f, 2.8f)], //long
+                           [ NSValue valueWithCGPoint:CGPointMake(2.7f, 1.2f)], //slant
+                           [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
+                           [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                           [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                           [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                           [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
                            nil];
 
-        
-        pos.Set(1.779086f, 5.100423f);
-
-        
-        /*
-         NSMutableArray *points = [NSMutableArray array];
-         
-         [points addObject:[ NSValue valueWithCGPoint:CGPointMake(1,2)]];
-         
-         for(NSValue *v in points) {
-         CGPoint p = v.CGPointValue;
-         
-         //do something
-         }
-
-        */
         [self compoundBody:NO];
         [self compoundBody:YES];
 
@@ -231,6 +233,7 @@ static inline float mtp(float d)
     }
     return self; 
 }
+
 
 -(void)starterBoard {
     //staticBody1
@@ -314,9 +317,6 @@ static inline float mtp(float d)
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
     
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    
     pos.Set(p.x + delta, p.y);
     //pos.Set(4.764226f, 7.320508f);
     revJointDef.Initialize(polygon1, ground, pos);
@@ -355,8 +355,6 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);   
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
     
     pos.Set(p.x + delta, p.y);
     //pos.Set(1.779086f, 5.100423f);
@@ -477,11 +475,34 @@ static inline float mtp(float d)
     fd.filter.maskBits = uint16(65535);
     block->CreateFixture(&fd);
     
+    //triangle
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    bodyDef.position.Set(p.x +delta, p.y);
+    //bodyDef.position.Set(11.914894f, 0.882979f);
+    bodyDef.angle = 0.000000f;
+    b2Body* triangle = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    triangle->SetLinearVelocity(initVel);
+    triangle->SetAngularVelocity(0.000000f);
+    b2Vec2 triangle_vertices[3];
+    triangle_vertices[0].Set(-0.851064f, -0.840426f);
+    triangle_vertices[1].Set(0.851064f, -0.840426f);
+    triangle_vertices[2].Set(0.851064f, 0.840426f);
+    shape.Set(triangle_vertices, 3);
+    fd.shape = &shape;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    triangle->CreateFixture(&fd);
+    
     //circle2
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     
-    NSLog(@"p.x is %f p.y is %f and delta is %f", p.x, p.y, delta);
     // bodyDef.position.Set(24.36, 4.276596f);
     bodyDef.position.Set(p.x + delta, p.y);
     //bodyDef.position.Set(9.361702f, 4.276596f);
