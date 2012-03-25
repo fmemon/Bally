@@ -293,8 +293,47 @@ enum {
     }
     */
     
+    /*
+    for (CCSprite *object in _objects) {
+        if(CGRectContainsPoint([object boundingBox], touchLocation)) {
+            //CCLOG(@"Touched");
+            //remove sprite and b2body here
+        }
+    }
+    */
     
+    //Converting to cocos2D positioning
     
+  /*  //Getting body list from world
+    for (b2Body* b = world->GetBodyList(); b; b = b->GetNext()) {
+        //Getting Fixture from the bodies
+        b2Fixture *bf1 = b->GetFixtureList();
+        b2Fixture *bf2 =b->GetNext()->GetFixtureList();
+        
+        for(b2Fixture* bodyFixture in b->GetFixtureList(); bodyFixture; bodyFixture = bodyFixture->GetNext() )
+        {
+            if( b2TestOverlap( fixture->GetShape(), 0, bodyFixture->GetShape(), 0,
+                              fixture->GetBody()->GetTransform(), m_body->GetTransform() ) )
+            {
+                m_isOverlap = true;
+                return false;            
+            }
+        }
+
+        
+        //Checking whether the fixture contains touch location!
+        if (bf1->TestPoint(locationWorld)) {
+            //If YES assigning user data to a sprite tempSprite
+            CCSprite *tempSprite = (CCSprite *) b->GetUserData();
+            //Checking whether the user data sprite tag is 7
+            if (tempSprite .tag==7) {
+                //If YES then remove the sprite & the body!
+                [self removeChild:tempSprite cleanup:YES];
+                world->DestroyBody(b);
+            }
+        }
+    }
+    */
     
     [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
     [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
@@ -314,7 +353,77 @@ enum {
 
     
 }
+/*
+var maxShapes:int = 10;
+var testAABB = new AABB();
+testAABB.upperBound = player x, player y
+testAABB.lowerBound = player.x + 0.001, player y + 0.001;
 
+Shapes[] shapesUnderCharacter = world.queryAABB( AABB, maxShapes )
+
+for each ( Shape s in shapesUnderCharacter ){
+    if ( s.getBody() == groundBody ){
+        grounded = true;
+    }
+}
+
+/// Returns true if the given body overlaps any other body in the world.
+bool IsOverlap( const b2World* world, const b2Body* body )
+{
+    CheckOverlapCallback callback( body );
+    world->QueryAABB( &callback, GetBodyAABB( body ) );
+    return callback.m_isOverlap;
+}
+
+/// Gets the combined AABB of all shapes of the given body.
+b2AABB GetBodyAABB( const b2Body* body )
+{
+    b2AABB result;
+    b2Transform trans = body->GetTransform();
+    const b2Fixture* first = body->GetFixtureList();
+    
+    for( const b2Fixture* fixture = first; fixture; fixture = fixture->GetNext() )
+    {
+        b2AABB aabb;
+        fixture->GetShape()->ComputeAABB( &aabb, trans, 0 );
+        if( fixture == first )
+            result = aabb;
+        else
+            result.Combine( aabb );      
+    }   
+    
+    return result;
+}
+
+/// Callback to check for overlap of given body.
+struct CheckOverlapCallback : b2QueryCallback
+{
+    CheckOverlapCallback( const b2Body* body ) :
+    m_body( body ), m_isOverlap( false ) {}
+    
+    // override
+    bool ReportFixture( b2Fixture* fixture )
+    {
+        // Skip self.
+        if( fixture->GetBody() == m_body )
+            return true;
+        
+        for( const b2Fixture* bodyFixture = m_body->GetFixtureList(); bodyFixture;
+            bodyFixture = bodyFixture->GetNext() )
+        {
+            if( b2TestOverlap( fixture->GetShape(), 0, bodyFixture->GetShape(), 0,
+                              fixture->GetBody()->GetTransform(), m_body->GetTransform() ) )
+            {
+                m_isOverlap = true;
+                return false;            
+            }
+        }
+    }
+    
+    const b2Body* m_body;
+    bool m_isOverlap;
+};
+*/
 -(CGPoint)calcNewPoint:(int)cellNum {
 
     int multiplierY = 1;
@@ -769,7 +878,7 @@ enum {
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
-    polygon1->CreateFixture(&fd);
+    b2Fixture* bf = polygon1->CreateFixture(&fd);
     
     boxy.SetAsBox(0.35f,1.65f);
     fd.shape = &boxy;
@@ -786,6 +895,23 @@ enum {
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef);
+    
+    for (b2Body* b = world->GetBodyList(); b; b = b->GetNext()) {
+        //Getting Fixture from the bodies
+        b2Fixture *bf1 = b->GetFixtureList();
+        
+        if (bf1 == bf) continue;
+        
+        //Checking whether the fixture contains touch location!
+        if( b2TestOverlap( bf1, 0, bf, 0,
+                          bf1->GetBody()->GetTransform(), bfGetBody()->GetTransform() ) )
+        {
+            NSLog(@"there is overlap!!!!!!!!!!!!!!!!!!!")    ;     
+        }
+
+    }
+
+    
 }
 
 
