@@ -241,10 +241,137 @@ static inline float mtp(float d)
     [bodyPointsArray release];
     bodyPointsArray = nil;
     
-    bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(11.8f, 2.8f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 2.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(8.7f, 5.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(11.6f, 5.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 6.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(11.7f, 2.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(3.8f, 2.18f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 5.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(8.7f, 9.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(11.6f, 7.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 5.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 8.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(10.2f, 7.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(1.8f, 2.18f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(7.8f, 4.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(8.7f, 1.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(11.7f, 5.8f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(3.8f, 5.8f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(7.9f, 9.1f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(4.7f, 1.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(9.0f, 4.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(3.8f, 5.18f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(9.8f, 9.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(10.7f, 8.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(6.6f, 1.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(11.4f, 5.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(4.7f, 3.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(4.8f, 7.8f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(10.1f, 8.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(11.7f, 7.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(9.6f, 2.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(8.7f, 3.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(4.8f, 7.8f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(10.1f, 8.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(11.7f, 6.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(2.6f, 2.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
+                       [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
+                       [ NSValue valueWithCGPoint:CGPointMake(11.8f, 2.8f)], //polygon2
+                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 2.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(8.7f, 2.2f)], //slant
+                       [ NSValue valueWithCGPoint:CGPointMake(11.6f, 6.8f)], //short
+                       [ NSValue valueWithCGPoint:CGPointMake(11.9f, 6.9f)], //block
+                       [ NSValue valueWithCGPoint:CGPointMake(1.5f, 3.9f)], //triangle
+                       [ NSValue valueWithCGPoint:CGPointMake(3.4f, 5.3f)], //circle
+                       [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
+                       nil];
+    [screens addObject:bodyPointsArray];
+    [bodyPointsArray release];
+    bodyPointsArray = nil;
+    
+    //bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
+    bodyPointsArray = [screens lastObject];
     [self compoundBody:NO];
-    bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
-    [self compoundBody:YES];
+  //  bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
+   // [self compoundBody:YES];
 }
 
 -(void)starterBoard {
@@ -385,6 +512,7 @@ static inline float mtp(float d)
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
     //bodyDef1.position.Set(5.946951f, 2.903825f);
+    bodyDef1.type = b2_staticBody;
     bodyDef1.angle = -0.025254f;
     b2Body* staticBody2 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
@@ -414,6 +542,7 @@ static inline float mtp(float d)
     bodyDef1.position.Set(p.x +delta, p.y);
     //bodyDef1.position.Set(8.670213f, 1.212766f);
     bodyDef1.angle = -0.507438f;
+    bodyDef1.type = b2_staticBody;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
     staticBody3->SetLinearVelocity(initVel);
@@ -439,6 +568,7 @@ static inline float mtp(float d)
     bodyDef1.position.Set(p.x +delta, p.y);
     //bodyDef1.position.Set(11.574468f, 2.851064f);
     bodyDef1.angle = 0.020196f;
+    bodyDef1.type = b2_staticBody;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
     staticBody4->SetLinearVelocity(initVel);
@@ -464,6 +594,7 @@ static inline float mtp(float d)
     bodyDef.position.Set(p.x +delta, p.y);
     //bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
+    bodyDef.type = b2_dynamicBody;
     sprite =nil;
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
     [self addChild:sprite];
@@ -490,6 +621,7 @@ static inline float mtp(float d)
     //triangle
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
+    bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
     //bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
@@ -518,6 +650,7 @@ static inline float mtp(float d)
     // bodyDef.position.Set(24.36, 4.276596f);
     bodyDef.position.Set(p.x + delta, p.y);
     //bodyDef.position.Set(9.361702f, 4.276596f);
+    bodyDef.type = b2_dynamicBody;
     bodyDef.angle = 0.000000f;
     b2Body* circle2 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -542,6 +675,7 @@ static inline float mtp(float d)
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
     //bodyDef.position.Set(480.0f/2/PTM_RATIO, 6.574468f);
+    bodyDef.type = b2_staticBody;
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_staticBody;
     b2Body* hole = world->CreateBody(&bodyDef);
