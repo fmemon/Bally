@@ -63,5 +63,6 @@
 - (void)updateScore;
 - (void)saveData;
 - (void)scored:(b2Body*)bodyB;
+-(void)doMenu;
 
 @end

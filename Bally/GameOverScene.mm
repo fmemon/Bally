@@ -122,13 +122,13 @@
         muted = TRUE;
         //[[SimpleAudioEngine sharedEngine] setMute:1];
     }
-    [[SimpleAudioEngine sharedEngine] setMute:muted];
-    NSLog(@"in turnMusic %d", muted);
-    
+    [[SimpleAudioEngine sharedEngine] setMute:muted];    
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:muted forKey:@"IsMuted"];
     [defaults synchronize];
+    
+    NSLog(@"GameOver saved %d", muted);
 }
 
 
@@ -243,9 +243,9 @@
     
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
+        [[SimpleAudioEngine sharedEngine] setMute:muted];
+        NSLog(@"Ballyafter restore %d", muted);
     }
-    if (muted) [self turnOnMusic];
-    //NSLog(@"Is muted value afterward %d", muted);
 }
 
 - (void)testScore {

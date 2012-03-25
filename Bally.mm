@@ -65,7 +65,7 @@ static inline float mtp(float d)
     if( (self=[super init])) { 
         
         // enable touches
-        self.isTouchEnabled = YES;
+       // self.isTouchEnabled = YES;
         
         // enable accelerometer
         self.isAccelerometerEnabled = YES; 
@@ -97,6 +97,8 @@ static inline float mtp(float d)
         stopWater = TRUE;
         muted = FALSE;
         [self restoreData];
+
+
         
         ground = NULL;
         b2BodyDef bd;
@@ -165,8 +167,9 @@ static inline float mtp(float d)
         
         // Preload effect
         [MusicHandler preload];
-        // Enable touches        
-        //[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        
+        [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+
         //Pause Toggle can not sure frame cache for sprites!!!!!
 		CCMenuItemSprite *playItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
@@ -188,26 +191,6 @@ static inline float mtp(float d)
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
         
-  /*      CCMenuItemSprite *playItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
-                                                             selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
-        
-		CCMenuItemSprite *pauseItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
-                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseOFFSelect.png"]];
-
-        CCMenuItemToggle *pause2;
-		if (!muted)  {
-            pause2 = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem2, pauseItem2, nil];
-            pause2.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
-        }
-        else {
-            pause2 = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:pauseItem2, playItem2, nil];
-            pause2.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
-        }
-        //Create Menu with the items created before
-		CCMenu *menu2 = [CCMenu menuWithItems:pause2, nil];
-		menu2.position = CGPointMake(480.0f, 0.0f);
-		[self addChild:menu2 z:11];
-        */
         [self compoundBody];
 
         [self schedule: @selector(tick:)]; 
@@ -469,8 +452,6 @@ static inline float mtp(float d)
 
 - (void)scored:(b2Body*)bodyB {
     [MusicHandler playBounce];
-    //[self callEmitter:bodyB];
-   // [self applyPush:bodyB]; 
     score += 15;
     [self updateScore];
 }
@@ -478,7 +459,6 @@ static inline float mtp(float d)
 - (void)endGame:(b2Body*)bodyB {
     if (stopWater) {[MusicHandler playWater];
         stopWater = FALSE;
-        //[self callEmitter:bodyB];
         bodyB->SetLinearVelocity(b2Vec2(0,0));
         bodyB->SetAngularVelocity(0);
         
@@ -520,11 +500,8 @@ static inline float mtp(float d)
     
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
+        [[SimpleAudioEngine sharedEngine] setMute:muted];
     }
-    if (muted) [self turnOnMusic];
-
-    NSLog(@"in restore %d", muted);
-
 }
 
 - (void)turnOnMusic {
@@ -539,13 +516,13 @@ static inline float mtp(float d)
         //[[SimpleAudioEngine sharedEngine] setMute:1];
     }
     [[SimpleAudioEngine sharedEngine] setMute:muted];
-    NSLog(@"in turnMusic %d", muted);
     
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:muted forKey:@"IsMuted"];
     [defaults synchronize];
 }
+
 - (CCAction*)createBlinkAnim:(BOOL)isTarget {
     NSMutableArray *walkAnimFrames = [NSMutableArray array];
     
@@ -664,20 +641,17 @@ static inline float mtp(float d)
             myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
             self.position = myPosition;
             pause.position = ccp((screenSize.width*0.06)+480.0f, screenSize.height*0.90f);
-            NSLog(@"xvalue is %f",pause.position.x );
-           // [pause runAction:[CCMoveTo actionWithDuration:0.01f position:ccp(460.0f, pause.position.y)]];
         }
         else if (position.x < screenSize.width / 2.0f / PTM_RATIO) {
            // [pause runAction:[CCMoveTo actionWithDuration:0.05f  position:ccp(0.0f, pause.position.y)]];
             pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
-
         }
     
     }
     
 }
 
-
+/*
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 
@@ -692,7 +666,11 @@ static inline float mtp(float d)
 {
   
 }
+*/
 
+-(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    return YES;
+}
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
