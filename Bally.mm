@@ -200,6 +200,8 @@ static inline float mtp(float d)
         
         [self starterBoard];
         
+        NSMutableArray *screens = [[NSMutableArray alloc] initWithCapacity:12];
+        
         bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                            [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
                            [ NSValue valueWithCGPoint:CGPointMake(1.8f, 5.18f)], //polygon2
@@ -212,7 +214,10 @@ static inline float mtp(float d)
                            [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
                            nil];
         
-        [bodyPointsArray removeAllObjects];
+        [screens addObject:bodyPointsArray];
+        [bodyPointsArray release];
+        bodyPointsArray = nil;
+        //[bodyPointsArray removeAllObjects];
         
         bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                            [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
@@ -225,8 +230,13 @@ static inline float mtp(float d)
                            [ NSValue valueWithCGPoint:CGPointMake(9.4f, 4.3f)], //circle
                            [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.6f)],//hole
                            nil];
-
+        [screens addObject:bodyPointsArray];
+        [bodyPointsArray release];
+        bodyPointsArray = nil;
+        
+        bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
         [self compoundBody:NO];
+        bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
         [self compoundBody:YES];
 
         [self schedule: @selector(tick:)]; 
