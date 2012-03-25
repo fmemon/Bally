@@ -68,73 +68,46 @@ enum {
     if( (self=[super init])) { 
         
         // enable touches
-        
         self.isTouchEnabled = YES; 
         
         // enable accelerometer
-        
         self.isAccelerometerEnabled = YES; 
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         
-        CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height); 
-        
         // Define the gravity vector.
-        
         b2Vec2 gravity;
-        
         gravity.Set(0.0f, -10.0f); 
         
-        // Do we want to let bodies sleep?
         
         // This will speed up the physics simulation
-        
         bool doSleep = true; 
         
         // Construct a world object, which will hold and simulate the rigid bodies.
-        
         world = new b2World(gravity, doSleep); 
-        
         world->SetContinuousPhysics(true); 
         
         // Debug Draw functions
-        
         m_debugDraw = new GLESDebugDraw( PTM_RATIO );
-        
         world->SetDebugDraw(m_debugDraw); 
-        
         uint32 flags = 0;
-        
         flags += b2DebugDraw::e_shapeBit;
-        
-        //  flags += b2DebugDraw::e_jointBit;
-        
-        //  flags += b2DebugDraw::e_aabbBit;
-        
-        //  flags += b2DebugDraw::e_pairBit;
-        
-        //  flags += b2DebugDraw::e_centerOfMassBit;
-        
         m_debugDraw->SetFlags(flags);  
         
         //initial settings
         muted = FALSE;
         [self restoreData];
         
-        
         ground = NULL;
         b2BodyDef bd;
         ground = world->CreateBody(&bd);
 
-        
         //Box
         b2BodyDef groundBodyDef;
         b2Body* groundBody = world->CreateBody(&groundBodyDef);
         
-        //shape.SetAsEdge(b2Vec2(0.000000f, 0.000000f), b2Vec2(15.000000f, 0.000000f)); //bottom wall
         shape.SetAsEdge(b2Vec2(0.000000f, 0.000000f), b2Vec2(30.000000f, 0.000000f)); //bottom wall
         groundBody->CreateFixture(&shape,0);
-       // shape.SetAsEdge(b2Vec2(15.000000f, 0.000000f), b2Vec2(15.000000f, 10.000000f)); //right wall
         shape.SetAsEdge(b2Vec2(30.000000f, 0.000000f), b2Vec2(30.000000f, 10.000000f)); //right wall
         groundBody->CreateFixture(&shape,0);
         shape.SetAsEdge(b2Vec2(30.000000f, 10.000000f), b2Vec2(0.000000f, 10.000000f)); //top wall
@@ -142,13 +115,10 @@ enum {
         shape.SetAsEdge(b2Vec2(0.000000f, 10.000000f), b2Vec2(0.000000f, 0.000000f)); //;left wall
         groundBody->CreateFixture(&shape,0);
 
-        
         //background
         CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand2x.png"];
         sprite2.anchorPoint = CGPointZero;
-        //sprite2.position = ccp(screenSize.width/2, screenSize.height/2);
         sprite2.position = CGPointZero;
-        //sprite2.anchorPoint = CGPointZero;
         [self addChild:sprite2 z:-11];
         
         
@@ -164,19 +134,13 @@ enum {
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
-        
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
         texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
         sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
-        //CCSprite *sprite = [CCSprite spriteWithTexture:texture rect:CGRectMake(0, 0, 1.72f*64.0f, 0.4*64.0f)];
         sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
-        [sprite.texture setTexParameters:&params];
-        //[self addChild:sprite];
+        [sprite.texture setTexParameters:&params];        
         
-        
-        
-        //sound
         // Preload effect
         [MusicHandler preload];
         // Enable touches        
@@ -197,22 +161,14 @@ enum {
             pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
         }
         
-        
 		//Create Menu with the items created before
 		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
-        
-        
-     /*   [self addPolygon1:CGPointMake(4.764226f, 7.320508f)];
-        [self addPolygon1:CGPointMake(1.779086f, 5.100423f)];
-        [self compoundBody];
-       */ 
 
-        [self setupBoard];
-        
+        [self compoundBody];
+
         [self schedule: @selector(tick:)]; 
-        
     }
     return self; 
 }
@@ -224,7 +180,6 @@ enum {
         [cellNum addObject:[NSNumber numberWithInt:i]];
     }
 
-
     //stores the first 3 numbers to be shuffled for which row gets each type 1, 2,3
     NSMutableArray *cellRow = [NSMutableArray arrayWithCapacity:3];
     for (int i = 0; i < 3; i++) {
@@ -232,33 +187,6 @@ enum {
     }
     
     NSMutableArray *whichCell = [NSMutableArray arrayWithCapacity:30];
- /*   
-    //do the first 3 types via shuffling
-    srandom(time(NULL));
-    
-    for (NSInteger x = 0; x < [cellRow count]; x++)
-    {
-        NSInteger randInt = (random() % ([cellRow count] - x)) + x;
-        [cellRow exchangeObjectAtIndex:x withObjectAtIndex:randInt];
-    }
-    for (NSInteger x = 0; x < [cellRow count]; x++)
-    {
-        int val = [[cellRow objectAtIndex:x] integerValue] + (x*3);
-        [whichCell addObject:[NSNumber numberWithInt:val]];
-        [whichCell addObject:[NSNumber numberWithInt:val+1]];
-    }
-    //now remove these affected cells from our choosing cells
-    for (NSInteger x = 0; x < [cellRow count]; x++)
-    {
-        [cellNum removeObjectsInArray:whichCell];
-    }
-
-   
-    NSLog(@"shuffle array before : %@", cellRow);
-    NSLog(@"shuffle array WhichCell : %@", whichCell);
-    NSLog(@"shuffle array cellNum : %@", cellNum);
-*/
-    
 
     int posKey, posValue;
     for (int i=0;i <16; i++) {
@@ -267,27 +195,14 @@ enum {
         
         [whichCell addObject:[NSNumber numberWithInt:posValue]];
         [cellNum removeObjectAtIndex:posKey];
-        
-        //NSLog(@"posKey %i and posValue  %i",posKey, posValue);
     }
-    
-//    NSLog(@"shuffle array WhichCell : %@", whichCell);
-  //  NSLog(@"shuffle array cellNum : %@", cellNum);
-
     
     //add the pieces the screen
     [self starterLedgeAndBall];
 
-
- /*   [self LongShort:[self calcNewPoint:[[whichCell objectAtIndex:0] integerValue]]];
-    [self ShortShort:[self calcNewPoint:[[whichCell objectAtIndex:2] integerValue]]];
-    [self ShortLong:[self calcNewPoint:[[whichCell objectAtIndex:4] integerValue]]];
- */
     int i = 0;
     [self Polygon1:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
-    
-
-    
+        
     [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
     [self Triangle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
     [self LargeCircle:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
@@ -302,9 +217,7 @@ enum {
     [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
     [self Short:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
     [self Block:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
-    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];
-
-    
+    [self Slant:[self calcNewPoint:[[whichCell objectAtIndex:i++] integerValue]]];    
 }
 
 -(CGPoint)calcNewPoint:(int)cellNum {
@@ -487,7 +400,6 @@ enum {
     fd.filter.maskBits = uint16(65535);
     staticBody2->CreateFixture(&shape,0);
     
-    
     //staticBody4 short
     bodyDef1.position.Set(newPoint.x + 3.0f, newPoint.y);
     bodyDef1.angle = 0.020196f;
@@ -561,13 +473,9 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     staticBody2->CreateFixture(&shape,0);
-    
-
-    
 }
 
 -(void)ShortShort:(CGPoint)newPoint {
-    
     //staticBody2 Long
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.6f*64.0f, 0.40*64.0f)];
     [self addChild:sprite];
@@ -593,7 +501,6 @@ enum {
     fd.filter.maskBits = uint16(65535);
     staticBody2->CreateFixture(&shape,0);
     
-    
     //staticBody4 short
     bodyDef1.position.Set(newPoint.x + 2.2f, newPoint.y);
     bodyDef1.angle = 0.020196f;
@@ -615,8 +522,6 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     staticBody4->CreateFixture(&shape,0);
-
-    
 }
 
 -(void)Slant:(CGPoint)newPoint {
@@ -624,7 +529,6 @@ enum {
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     [self addChild:sprite];
     bodyDef1.userData = sprite;
-    //bodyDef1.position.Set(8.670213f, 1.212766f);
     bodyDef1.position.Set(newPoint.x, newPoint.y);
     bodyDef1.angle = -0.507438f;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
@@ -652,7 +556,6 @@ enum {
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.6f*64.0f, 0.40*64.0f)];
     [self addChild:sprite z:3 tag:33];
     bodyDef1.userData = sprite;
-   // bodyDef.position.Set(9.361702f, 4.276596f);
     bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
     bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
@@ -673,17 +576,10 @@ enum {
 
 -(void)Triangle:(CGPoint)newPoint {
     //block
-    
-    
     bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
-    //    /bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.position.Set(newPoint.x, newPoint.y);
     bodyDef.angle = 0.000000f;
     sprite =nil;
-//    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"metalTexture.png"];
- //   sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
- //   [self addChild:sprite];
-  //  bodyDef.userData=sprite;
     b2Body* block = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     block->SetLinearVelocity(initVel);
@@ -701,12 +597,10 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     block->CreateFixture(&fd);
-    
 }
 
 -(void)Block:(CGPoint)newPoint {
     //block
-//    /bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.userData = nil;
     bodyDef.type = (CCRANDOM_0_1() < 0.5)? b2_dynamicBody :  b2_staticBody;
     bodyDef.position.Set(newPoint.x, newPoint.y);
@@ -733,7 +627,6 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     block->CreateFixture(&fd);
-    
 }
 
 
@@ -751,17 +644,14 @@ enum {
     polygon1->SetLinearVelocity(initVel);
     polygon1->SetAngularVelocity(0.000000f);
     boxy.SetAsBox(1.65f, 0.35f);
-    
     fd.shape = &boxy;
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
     fd.restitution = 0.9000000f; //was 0.6 now faster
-    
-    
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
-    b2Fixture* bf = polygon1->CreateFixture(&fd);
+    polygon1->CreateFixture(&fd);
     
     boxy.SetAsBox(0.35f,1.65f);
     fd.shape = &boxy;
@@ -773,12 +663,10 @@ enum {
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
     
-    
     pos.Set(newPoint.x, newPoint.y);;
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef);
-    
 }
 
 
@@ -803,9 +691,7 @@ enum {
     fd.filter.maskBits = uint16(65535);        
     staticBody1->CreateFixture(&boxy,0);
     
-    
     //ball
-    // CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
     CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
     ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:ballSprite z:3 tag:11];
@@ -818,19 +704,11 @@ enum {
     initVel.Set(0.000000f, 0.000000f);
     ball->SetLinearVelocity(initVel);
     ball->SetAngularVelocity(0.000000f);
-    //circleShape.m_radius = 0.406489f;
-    //circleShape.m_radius = (sprite.contentSize.width / 32.0) * 0.5f;
     circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.05f;
-    
     fd.shape = &circleShape;
-    //  fd.density = 0.196374f;
-    // fd.friction = 0.300000f;
-    // fd.restitution = 0.600000f;
     fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
     fd.friction = 0.0f;
     fd.restitution = 1.0f; //toobouncy
-    //fd.restitution = 0.8f;
-    
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
@@ -849,7 +727,6 @@ enum {
     initVel.Set(0.000000f, 0.000000f);
     hole->SetLinearVelocity(initVel);
     hole->SetAngularVelocity(0.000000f);
-    //circleShape.m_radius = 0.406489f;
     circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.10f;//was 0.05f - too tiny
     fd.shape = &circleShape;
     fd.density = 0.196374f;
@@ -862,31 +739,19 @@ enum {
 }
 
 -(void)compoundBody {
-    
-  /*  ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
-    //CCSprite *sprite = [CCSprite spriteWithTexture:texture rect:CGRectMake(0, 0, 1.72f*64.0f, 0.4*64.0f)];
-    sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
-    [sprite.texture setTexParameters:&params];
-    //[self addChild:sprite];
-   */
-    
     //polygon1
     bodyDef.type=b2_dynamicBody;
     bodyDef.position.Set(4.764226f, 7.320508f);
     bodyDef.angle = 0.000000f;
-    b2Body* polygon1 = world->CreateBody(&bodyDef);
+    polygon1 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     polygon1->SetLinearVelocity(initVel);
     polygon1->SetAngularVelocity(0.000000f);
     boxy.SetAsBox(1.65f, 0.35f);
-    
     fd.shape = &boxy;
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
     fd.restitution = 0.9000000f; //was 0.6 now faster
-    
     
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
@@ -903,7 +768,6 @@ enum {
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
     
-    
     pos.Set(4.764226f, 7.320508f);;
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
@@ -919,9 +783,7 @@ enum {
     initVel.Set(0.000000f, 0.000000f);
     polygon2->SetLinearVelocity(initVel);
     polygon2->SetAngularVelocity(0.000000f);
-    //b2PolygonShape boxy;
     boxy.SetAsBox(1.65f, 0.35f);
-    
     fd.shape = &boxy;
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
@@ -950,15 +812,6 @@ enum {
     bodyDef1.position.Set(5.946951f, 2.903825f);
     bodyDef1.angle = -0.025254f;
     b2Body* staticBody2 = world->CreateBody(&bodyDef1);
-    /*   
-     //this adds a ball at the end but change the vertices to 0, 6 from -3 and 3 to make it go at the end
-     circleShape.m_radius = 0.406489f;
-     fd.shape = &circleShape;
-     fd.density = 0.196374f;
-     fd.friction = 0.300000f;
-     fd.restitution = 0.600000f;
-     staticBody2->CreateFixture(&fd);
-     */ 
     initVel.Set(0.000000f, 0.000000f);
     staticBody2->SetLinearVelocity(initVel);
     staticBody2->SetAngularVelocity(0.000000f);
@@ -976,15 +829,7 @@ enum {
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     staticBody2->CreateFixture(&shape,0);
-    
-    /*UIImage *myImage = [UIImage imageNamed:@"bricks.jpg"];
-     CCSprite *mySprite = [CCSprite spriteWithTexture:[[CCTexture2D alloc]initWithImage:myImage]];
-     mySprite.position = ccp(100,100);
-     [self addChild:mySprite];
-     */
-    
 
-    
     //staticBody3
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     [self addChild:sprite];
@@ -1011,7 +856,6 @@ enum {
     staticBody3->CreateFixture(&shape,0);
 
     //staticBody4
-    //bodyDef.userData = sprite;
     bodyDef1.position.Set(11.574468f, 2.851064f);
     bodyDef1.angle = 0.020196f;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
@@ -1060,8 +904,6 @@ enum {
     block->CreateFixture(&fd);
     
     //Circles
-    
-    
     //circle2
     bodyDef.position.Set(9.361702f, 4.276596f);
     bodyDef.angle = 0.000000f;
@@ -1079,10 +921,7 @@ enum {
     fd.filter.maskBits = uint16(65535);
     circle2->CreateFixture(&fd);
     
-
-    
     //ball
-   // CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"ball.png"];
     CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
     ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:ballSprite z:3 tag:11];
@@ -1095,27 +934,18 @@ enum {
     initVel.Set(0.000000f, 0.000000f);
     ball->SetLinearVelocity(initVel);
     ball->SetAngularVelocity(0.000000f);
-    //circleShape.m_radius = 0.406489f;
-    //circleShape.m_radius = (sprite.contentSize.width / 32.0) * 0.5f;
     circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.05f;
 
     fd.shape = &circleShape;
-    //  fd.density = 0.196374f;
-    // fd.friction = 0.300000f;
-    // fd.restitution = 0.600000f;
     fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
     fd.friction = 0.0f;
-    fd.restitution = 1.0f; //toobouncy
-    //fd.restitution = 0.8f;
-    
+    fd.restitution = 1.0f; //toobouncy    
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     ball->CreateFixture(&fd);
     
-    
     //Revolute joints
-
     pos.Set(1.779086f, 5.100423f);
     revJointDef.Initialize(polygon2, ground, pos);
     revJointDef.collideConnected = false;
@@ -1153,14 +983,10 @@ enum {
 - (void)restoreData {
     // Get the stored data before the view loads
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-     NSLog(@"Is muted value BEFORE %d", muted);
     
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
     }
-    
-    NSLog(@"Is muted value afterward %d", muted);
 }
 
 - (void)turnOnMusic {
@@ -1267,17 +1093,12 @@ enum {
             CCSprite *spriteB = (CCSprite *) bodyB->GetUserData();
             if (spriteA.tag == 11 || spriteB.tag == 11) [MusicHandler playBounce];
 
-            // Is sprite A a cat and sprite B a car? 
             if (spriteA.tag == 88 && spriteB.tag == 11) {
-                NSLog(@"Game Ended");
                 [MusicHandler playWater];
                 [[CCDirector sharedDirector] replaceScene:[GameOverScene node]];
 
-            } 
-            // Is sprite A a car and sprite B a cat?  
-            else if (spriteA.tag == 11 && spriteB.tag == 88) {
+            } else if (spriteA.tag == 11 && spriteB.tag == 88) {
                 [MusicHandler playWater];
-                NSLog(@"Game Ended");
                 [[CCDirector sharedDirector] replaceScene:[GameOverScene node]];
 
             } 

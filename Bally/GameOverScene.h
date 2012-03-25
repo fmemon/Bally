@@ -35,9 +35,6 @@ typedef enum
 }
 
 +(id) scene;
-+(GameOverScene*) sharedGameOverScene;
-//-(CCSpriteBatchNode*) getSpriteBatch;
-//-(void) gameOver;
 - (void)restoreData;
 
 @end
