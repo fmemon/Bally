@@ -65,7 +65,7 @@ static inline float mtp(float d)
     if( (self=[super init])) { 
         
         // enable touches
-        self.isTouchEnabled = YES; 
+        self.isTouchEnabled = YES;
         
         // enable accelerometer
         self.isAccelerometerEnabled = YES; 
@@ -439,7 +439,7 @@ static inline float mtp(float d)
     hole->SetLinearVelocity(initVel);
     hole->SetAngularVelocity(0.000000f);
     //circleShape.m_radius = 0.406489f;
-    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.10f;//was 0.05f - too tiny
+    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.5;//was 0.05f - too tiny
     fd.shape = &circleShape;
     fd.density = 0.196374f;
     fd.friction = 0.300000f;
@@ -487,6 +487,7 @@ static inline float mtp(float d)
 - (void)saveData {   
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:score forKey:@"newHS"];
+
     [defaults synchronize];
 }
 - (void)restoreData {
@@ -503,6 +504,10 @@ static inline float mtp(float d)
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
     }
+    if (muted) [self turnOnMusic];
+
+    NSLog(@"in restore %d", muted);
+
 }
 
 - (void)turnOnMusic {
@@ -517,7 +522,7 @@ static inline float mtp(float d)
         //[[SimpleAudioEngine sharedEngine] setMute:1];
     }
     [[SimpleAudioEngine sharedEngine] setMute:muted];
-    //NSLog(@"in mute Siund %d", muted);
+    NSLog(@"in turnMusic %d", muted);
     
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -614,7 +619,18 @@ static inline float mtp(float d)
             } else if (spriteA.tag == 11 && spriteB.tag == 88) {
                 [self endGame:bodyB];
             } 
-            else if (spriteA.tag == 11 || spriteB.tag == 11)  [self scored:bodyA];
+            else if (spriteA.tag == 11)  {
+                [self scored:bodyA];
+            //check if too far left or too far right
+                if (spriteA.position.x < 0.5f || spriteA.position.x > 29.5f) [spriteA runAction:[CCMoveTo actionWithDuration:0.1f 
+                                                                                                         position:ccp(spriteA.position.x+1.0f, spriteA.position.y)]];
+            }
+            else if (spriteB.tag == 11)  {
+                [self scored:bodyB];
+                //check if too far left or too far right
+                if (spriteB.position.x < 0.5f || spriteB.position.x > 29.5f) [spriteB runAction:[CCMoveTo actionWithDuration:0.1f 
+                                                                                                                    position:ccp(spriteB.position.x+1.0f, spriteB.position.y)]];
+            }
 
         }  
     }
@@ -635,11 +651,23 @@ static inline float mtp(float d)
     }
     
 }
+
+
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-    
+
 }
+
+- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  
+}
+
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	

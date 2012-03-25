@@ -123,7 +123,7 @@
         //[[SimpleAudioEngine sharedEngine] setMute:1];
     }
     [[SimpleAudioEngine sharedEngine] setMute:muted];
-    //NSLog(@"in mute Siund %d", muted);
+    NSLog(@"in turnMusic %d", muted);
     
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -244,7 +244,7 @@
     if ([defaults boolForKey:@"IsMuted"]) {
         muted = [defaults boolForKey:@"IsMuted"];
     }
-    
+    if (muted) [self turnOnMusic];
     //NSLog(@"Is muted value afterward %d", muted);
 }
 
