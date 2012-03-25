@@ -367,11 +367,10 @@ static inline float mtp(float d)
     [bodyPointsArray release];
     bodyPointsArray = nil;
     
-    //bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
-    bodyPointsArray = [screens lastObject];
+    bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
     [self compoundBody:NO];
-  //  bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
-   // [self compoundBody:YES];
+    bodyPointsArray = [screens objectAtIndex:arc4random() % 2];
+    [self compoundBody:YES];
 }
 
 -(void)starterBoard {
