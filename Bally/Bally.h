@@ -56,7 +56,7 @@
 // returns a CCScene that contains the Bally as the only child
 +(CCScene *) scene;
 // adds a new sprite at a given coordinate
--(void)compoundBody;
+-(void)compoundBody:(BOOL)isSecondSecreen;
 - (float)randomValueBetween:(float)low andValue:(float)high;
 - (void)turnOnMusic;
 - (void)restoreData;

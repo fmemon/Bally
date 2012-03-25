@@ -195,9 +195,30 @@ static inline float mtp(float d)
         
         [self starterBoard];
         
-//        NSArray* bodyPointsArray;
+        bodyPointsArray = [[NSArray alloc] initWithObjects:
+                           [ NSValue valueWithCGPoint:CGPointMake(4.764226f, 7.320508f)],
+        [ NSValue valueWithCGPoint:CGPointMake(1.779086f, 5.100423f)],
+        [ NSValue valueWithCGPoint:CGPointMake(5.946951f, 2.903825f)],
+        [ NSValue valueWithCGPoint:CGPointMake(8.670213f, 1.212766f)],
+        [ NSValue valueWithCGPoint:CGPointMake(11.574468f, 2.851064f)],
+        [ NSValue valueWithCGPoint:CGPointMake(11.914894f, 0.882979f)],
+        [ NSValue valueWithCGPoint:CGPointMake(9.361702f, 4.276596f)],
+        [ NSValue valueWithCGPoint:CGPointMake(480.0f/2/PTM_RATIO, 6.574468f)], nil];
 
-        [self compoundBody];
+        
+        /*
+         NSMutableArray *points = [NSMutableArray array];
+         
+         [points addObject:[ NSValue valueWithCGPoint:CGPointMake(1,2)]];
+         
+         for(NSValue *v in points) {
+         CGPoint p = v.CGPointValue;
+         
+         //do something
+         }
+
+        */
+        [self compoundBody:YES];
 
         [self schedule: @selector(tick:)]; 
     }
@@ -221,7 +242,6 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);        
     staticBody1->CreateFixture(&boxy,0);
-    
     
     //ball
     bodyDef.type =b2_dynamicBody;
@@ -247,14 +267,22 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     ball->CreateFixture(&fd);
-    
-
 }
 
--(void)compoundBody {
+-(void)compoundBody:(BOOL)isSecondSecreen {
+    
+    int i = 0;
+    float delta = 0.0f;
+    if (isSecondSecreen) delta = 15.0f;
+    
+    NSValue *val = [bodyPointsArray objectAtIndex:i++];
+    CGPoint p = [val CGPointValue];
+
+    
     //polygon1
     bodyDef.type=b2_dynamicBody;
-    bodyDef.position.Set(4.764226f, 7.320508f);
+    bodyDef.position.Set(p.x +delta, p.y);
+    //bodyDef.position.Set(4.764226f, 7.320508f);
     bodyDef.angle = 0.000000f;
     polygon1 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -265,12 +293,10 @@ static inline float mtp(float d)
     fd.density = 0.015000f;
     fd.friction = 0.300000f;
     fd.restitution = 0.9000000f; //was 0.6 now faster
-    
     fd.filter.groupIndex = int16(0);
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
-    
     boxy.SetAsBox(0.35f,1.65f);
     fd.shape = &boxy;
     fd.density = 0.015000f;
@@ -280,17 +306,20 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
-    
     pos.Set(4.764226f, 7.320508f);;
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef);
     
     //polygon2
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.65*64.0f, 0.35*64.0f)];
     [self addChild:sprite];
     bodyDef.userData = sprite;
-    bodyDef.position.Set(1.779086f, 5.100423f);
+    bodyDef.position.Set(p.x +delta, p.y);
+    //bodyDef.position.Set(1.779086f, 5.100423f);
     bodyDef.angle = 0.000000f;
     b2Body* polygon2 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -305,7 +334,6 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);
-    
     boxy.SetAsBox(0.35f,1.65f);
     fd.shape = &boxy;
     fd.density = 0.015000f;
@@ -317,13 +345,16 @@ static inline float mtp(float d)
     polygon2->CreateFixture(&fd);    
     
 
-    
     //staticBody2
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
     sprite.color = ccBLUE;
     [self addChild:sprite];
     bodyDef1.userData = sprite;
-    bodyDef1.position.Set(5.946951f, 2.903825f);
+    bodyDef1.position.Set(p.x +delta, p.y);
+    //bodyDef1.position.Set(5.946951f, 2.903825f);
     bodyDef1.angle = -0.025254f;
     b2Body* staticBody2 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
@@ -345,10 +376,13 @@ static inline float mtp(float d)
     staticBody2->CreateFixture(&shape,0);
 
     //staticBody3
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
     [self addChild:sprite];
     bodyDef1.userData = sprite;
-    bodyDef1.position.Set(8.670213f, 1.212766f);
+    bodyDef1.position.Set(p.x +delta, p.y);
+    //bodyDef1.position.Set(8.670213f, 1.212766f);
     bodyDef1.angle = -0.507438f;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
@@ -370,7 +404,10 @@ static inline float mtp(float d)
     staticBody3->CreateFixture(&shape,0);
 
     //staticBody4
-    bodyDef1.position.Set(11.574468f, 2.851064f);
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    bodyDef1.position.Set(p.x +delta, p.y);
+    //bodyDef1.position.Set(11.574468f, 2.851064f);
     bodyDef1.angle = 0.020196f;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
     initVel.Set(0.000000f, 0.000000f);
@@ -392,7 +429,10 @@ static inline float mtp(float d)
     staticBody4->CreateFixture(&shape,0);
     
     //block
-    bodyDef.position.Set(11.914894f, 0.882979f);
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    bodyDef.position.Set(p.x +delta, p.y);
+    //bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
     sprite =nil;
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
@@ -417,9 +457,14 @@ static inline float mtp(float d)
     fd.filter.maskBits = uint16(65535);
     block->CreateFixture(&fd);
     
-    //Circles
     //circle2
-    bodyDef.position.Set(9.361702f, 4.276596f);
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
+    
+    NSLog(@"p.x is %f p.y is %f and delta is %f", p.x, p.y, delta);
+   // bodyDef.position.Set(24.36, 4.276596f);
+    bodyDef.position.Set(p.x + delta, p.y);
+    //bodyDef.position.Set(9.361702f, 4.276596f);
     bodyDef.angle = 0.000000f;
     b2Body* circle2 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -442,11 +487,14 @@ static inline float mtp(float d)
     world->CreateJoint(&revJointDef); 
     
     //Hole
+    val = [bodyPointsArray objectAtIndex:i++];
+    p = [val CGPointValue];
     sprite = [CCSprite spriteWithSpriteFrameName:@"hole.png"];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:88];
     bodyDef.userData = sprite;
-    bodyDef.position.Set(480.0f/2/PTM_RATIO, 6.574468f);
+    bodyDef.position.Set(p.x +delta, p.y);
+    //bodyDef.position.Set(480.0f/2/PTM_RATIO, 6.574468f);
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_staticBody;
     b2Body* hole = world->CreateBody(&bodyDef);
