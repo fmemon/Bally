@@ -173,7 +173,7 @@ static inline float mtp(float d)
         
 		CCMenuItemSprite *pauseItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
                                                               selectedSprite:[CCSprite spriteWithFile:@"newPauseOFFSelect.png"]];
-        CCMenuItemToggle *pause;
+        
 		if (!muted)  {
             pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem, pauseItem, nil];
             pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
@@ -188,7 +188,7 @@ static inline float mtp(float d)
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
         
-        CCMenuItemSprite *playItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
+  /*      CCMenuItemSprite *playItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
         
 		CCMenuItemSprite *pauseItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
@@ -207,7 +207,7 @@ static inline float mtp(float d)
 		CCMenu *menu2 = [CCMenu menuWithItems:pause2, nil];
 		menu2.position = CGPointMake(480.0f, 0.0f);
 		[self addChild:menu2 z:11];
-        
+        */
         [self compoundBody];
 
         [self schedule: @selector(tick:)]; 
@@ -279,6 +279,23 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);    
+    
+    //staticBody1
+    bodyDef1.position.Set(1.379107f, 8.495184f);
+    bodyDef1.angle = -0.222508f;
+    b2Body* staticBody1 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody1->SetLinearVelocity(initVel);
+    staticBody1->SetAngularVelocity(0.000000f);
+    boxy.SetAsBox(1.35f, 0.20f);
+    fd.shape = &boxy;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);        
+    staticBody1->CreateFixture(&boxy,0);
     
     //staticBody2
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
@@ -595,6 +612,7 @@ static inline float mtp(float d)
 			CCSprite *myActor = (CCSprite*)b->GetUserData();
 			myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
 			myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            if (myActor.position.x < 0.5f || myActor.position.x > 29.5f) [myActor runAction:[CCMoveTo actionWithDuration:0.1f position:ccp(myActor. position.x+1.0f, myActor.position.y)]];
 		}	
 	}
     
@@ -621,15 +639,13 @@ static inline float mtp(float d)
             } 
             else if (spriteA.tag == 11)  {
                 [self scored:bodyA];
-            //check if too far left or too far right
+ /*           //check if too far left or too far right
                 if (spriteA.position.x < 0.5f || spriteA.position.x > 29.5f) [spriteA runAction:[CCMoveTo actionWithDuration:0.1f 
-                                                                                                         position:ccp(spriteA.position.x+1.0f, spriteA.position.y)]];
+                                                                                                         position:ccp(spriteA.position.x+1.5f, spriteA.position.y)]];
+  */
             }
             else if (spriteB.tag == 11)  {
                 [self scored:bodyB];
-                //check if too far left or too far right
-                if (spriteB.position.x < 0.5f || spriteB.position.x > 29.5f) [spriteB runAction:[CCMoveTo actionWithDuration:0.1f 
-                                                                                                                    position:ccp(spriteB.position.x+1.0f, spriteB.position.y)]];
             }
 
         }  
@@ -647,7 +663,14 @@ static inline float mtp(float d)
         {
             myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
             self.position = myPosition;
+            [pause runAction:[CCMoveTo actionWithDuration:0.05f 
+                                                   position:ccp(440.0f, pause.position.y)]];
         }
+     /*   else if (position.x < screenSize.width / 2.0f / PTM_RATIO) {
+            [pause runAction:[CCMoveTo actionWithDuration:0.05f 
+                                                 position:ccp(0.0f, pause.position.y)]];
+        }
+    */
     }
     
 }
