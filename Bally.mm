@@ -439,7 +439,6 @@ static inline float mtp(float d)
         [self saveData];
         [self performSelector:@selector(gotoHS) withObject:nil afterDelay:0.3];
     }
-
 }
 
 - (void)gotoHS {
@@ -606,17 +605,6 @@ static inline float mtp(float d)
     
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		//[self addNewSpriteWithCoords: location];
-	}
-}
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
