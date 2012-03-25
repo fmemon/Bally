@@ -193,11 +193,62 @@ static inline float mtp(float d)
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
         
+        [self starterBoard];
+        
+//        NSArray* bodyPointsArray;
+
         [self compoundBody];
 
         [self schedule: @selector(tick:)]; 
     }
     return self; 
+}
+
+-(void)starterBoard {
+    //staticBody1
+    bodyDef1.position.Set(1.379107f, 8.495184f);
+    bodyDef1.angle = -0.222508f;
+    b2Body* staticBody1 = world->CreateBody(&bodyDef1);
+    initVel.Set(0.000000f, 0.000000f);
+    staticBody1->SetLinearVelocity(initVel);
+    staticBody1->SetAngularVelocity(0.000000f);
+    boxy.SetAsBox(1.35f, 0.20f);
+    fd.shape = &boxy;
+    fd.density = 0.015000f;
+    fd.friction = 0.300000f;
+    fd.restitution = 0.600000f;
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);        
+    staticBody1->CreateFixture(&boxy,0);
+    
+    
+    //ball
+    bodyDef.type =b2_dynamicBody;
+    CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
+    ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:ballSprite z:3 tag:11];
+    [ballSprite runAction:[self createBlinkAnim:YES]];
+    
+    bodyDef.userData = ballSprite;
+    bodyDef.position.Set(0.468085f, 9.574468f);
+    bodyDef.angle = 0.000000f;
+    ball = world->CreateBody(&bodyDef);
+    initVel.Set(0.000000f, 0.000000f);
+    ball->SetLinearVelocity(initVel);
+    ball->SetAngularVelocity(0.000000f);
+    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.05f;
+    
+    fd.shape = &circleShape;
+    fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
+    fd.friction = 0.0f;
+    fd.restitution = 1.0f; //toobouncy    
+    fd.filter.groupIndex = int16(0);
+    fd.filter.categoryBits = uint16(65535);
+    fd.filter.maskBits = uint16(65535);
+    ball->CreateFixture(&fd);
+    
+
 }
 
 -(void)compoundBody {
@@ -265,22 +316,7 @@ static inline float mtp(float d)
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);    
     
-    //staticBody1
-    bodyDef1.position.Set(1.379107f, 8.495184f);
-    bodyDef1.angle = -0.222508f;
-    b2Body* staticBody1 = world->CreateBody(&bodyDef1);
-    initVel.Set(0.000000f, 0.000000f);
-    staticBody1->SetLinearVelocity(initVel);
-    staticBody1->SetAngularVelocity(0.000000f);
-    boxy.SetAsBox(1.35f, 0.20f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);        
-    staticBody1->CreateFixture(&boxy,0);
+
     
     //staticBody2
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
@@ -398,31 +434,7 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     circle2->CreateFixture(&fd);
-    
-    //ball
-    CCSprite *ballSprite = [CCSprite spriteWithSpriteFrameName:@"blinkie1.png"];
-    ballSprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:ballSprite z:3 tag:11];
-    [ballSprite runAction:[self createBlinkAnim:YES]];
 
-    bodyDef.userData = ballSprite;
-    bodyDef.position.Set(0.468085f, 9.574468f);
-    bodyDef.angle = 0.000000f;
-    ball = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    ball->SetLinearVelocity(initVel);
-    ball->SetAngularVelocity(0.000000f);
-    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.05f;
-
-    fd.shape = &circleShape;
-    fd.density = 5.0f*CC_CONTENT_SCALE_FACTOR();
-    fd.friction = 0.0f;
-    fd.restitution = 1.0f; //toobouncy    
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    ball->CreateFixture(&fd);
-    
     //Revolute joints
     pos.Set(1.779086f, 5.100423f);
     revJointDef.Initialize(polygon2, ground, pos);
