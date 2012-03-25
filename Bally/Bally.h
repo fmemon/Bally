@@ -37,9 +37,15 @@
     b2Body* ball;
     
     BOOL muted;
+    BOOL stopWater;
     CCSprite *sprite;
     CCTexture2D *texture;
     b2Body* polygon1;
+    
+    int score;
+    int highscore;
+    CCLabelTTF *highscoreLabel;
+    CCLabelTTF *scoreLabel;
 }
 
 // returns a CCScene that contains the Bally as the only child
@@ -50,17 +56,8 @@
 - (void)turnOnMusic;
 - (void)restoreData;
 - (CCAction*)createBlinkAnim:(BOOL)isTarget;
--(void)setupBoard; 
--(void)LongShort:(CGPoint)newPoint;
--(CGPoint)calcNewPoint:(int)cellNum;
--(void)starterLedgeAndBall;
--(void)Short:(CGPoint)newPoint;
--(void)ShortShort:(CGPoint)newPoint;
--(void)ShortLong:(CGPoint)newPoint;
--(void)LargeCircle:(CGPoint)newPoint;    
--(void)Slant:(CGPoint)newPoint;
--(void)Block:(CGPoint)newPoint;
--(void)Triangle:(CGPoint)newPoint;
--(void)Polygon1:(CGPoint)pos;
+- (void)updateScore;
+- (void)saveData;
+- (void)scored:(b2Body*)bodyB;
 
 @end
