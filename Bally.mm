@@ -133,7 +133,7 @@ static inline float mtp(float d)
         
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"goldstars1smWbg.png",@"acornsm.png", nil ];
+        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", nil ];
         
         texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % [textureList count]]];
         //texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
