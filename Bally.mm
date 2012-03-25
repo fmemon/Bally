@@ -123,11 +123,7 @@ static inline float mtp(float d)
         sprite2.position = CGPointZero;
         [self addChild:sprite2 z:-11];
         
-        //spritesheet
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"matty.plist"];
-        CCSpriteBatchNode* spriteSheet2 = [CCSpriteBatchNode batchNodeWithFile:@"matty.png"];
-        [self addChild:spriteSheet2];
-        
+        //spritesheet        
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"rolly.plist"];
         CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"rolly.png"];
         [self addChild:spriteSheet];
@@ -137,8 +133,13 @@ static inline float mtp(float d)
         
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        texture = [[CCTextureCache sharedTextureCache] addImage:@"bricks.jpg"];
+        NSArray *textureList = [[NSArray alloc] initWithObjects:@"bricks.jpg",@"goldstars1sm.png",@"acorn.png", nil ];
+        
+       texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
+
         sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+        
+       // sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
         sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
         [sprite.texture setTexParameters:&params];        
         
