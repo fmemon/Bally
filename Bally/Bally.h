@@ -46,6 +46,8 @@
     int highscore;
     CCLabelTTF *highscoreLabel;
     CCLabelTTF *scoreLabel;
+    CCLabelTTF *highscoreLabel2;
+    CCLabelTTF *scoreLabel2;
 }
 
 // returns a CCScene that contains the Bally as the only child

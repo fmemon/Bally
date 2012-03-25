@@ -151,12 +151,22 @@ static inline float mtp(float d)
         scoreLabel.position = ccp(340.0f, 280.0f);
         scoreLabel.color = ccc3(26, 46, 149);
         [self addChild:scoreLabel z:10];
+        
+        highscoreLabel2 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"HighScore: %i",highscore] fontName:@"Arial" fontSize:24];
+        highscoreLabel2.color = ccc3(26, 46, 149);
+        highscoreLabel2.position = ccp(820.0f, 300.0f);
+        [self addChild:highscoreLabel2 z:10];
+        
+        scoreLabel2 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"       Score: %i",score] fontName:@"Arial" fontSize:24];
+        scoreLabel2.position = ccp(820.0f, 280.0f);
+        scoreLabel2.color = ccc3(26, 46, 149);
+        [self addChild:scoreLabel2 z:10];
 
         
         // Preload effect
         [MusicHandler preload];
         // Enable touches        
-        [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        //[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
         //Pause Toggle can not sure frame cache for sprites!!!!!
 		CCMenuItemSprite *playItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
@@ -177,7 +187,26 @@ static inline float mtp(float d)
 		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
+        
+        CCMenuItemSprite *playItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseON.png"]
+                                                             selectedSprite:[CCSprite spriteWithFile:@"newPauseONSelect.png"]];
+        
+		CCMenuItemSprite *pauseItem2 = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"newPauseOFF.png"]
+                                                              selectedSprite:[CCSprite spriteWithFile:@"newPauseOFFSelect.png"]];
 
+        CCMenuItemToggle *pause2;
+		if (!muted)  {
+            pause2 = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem2, pauseItem2, nil];
+            pause2.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        else {
+            pause2 = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:pauseItem2, playItem2, nil];
+            pause2.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+        }
+        //Create Menu with the items created before
+		CCMenu *menu2 = [CCMenu menuWithItems:pause2, nil];
+		menu2.position = CGPointMake(480.0f, 0.0f);
+		[self addChild:menu2 z:11];
         
         [self compoundBody];
 
@@ -447,6 +476,7 @@ static inline float mtp(float d)
 
 - (void)updateScore {
     [scoreLabel setString:[NSString stringWithFormat:@"       Score: %i",score]];
+    [scoreLabel2 setString:[NSString stringWithFormat:@"       Score: %i",score]];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:score forKey:@"score"];
@@ -466,6 +496,7 @@ static inline float mtp(float d)
     if ([defaults integerForKey:@"HS1"]) {
         highscore = [defaults integerForKey:@"HS1"];
         [highscoreLabel setString:[NSString stringWithFormat:@"HighScore: %i",highscore]];
+        [highscoreLabel2 setString:[NSString stringWithFormat:@"HighScore: %i",highscore]];
     }
     
     
@@ -604,7 +635,11 @@ static inline float mtp(float d)
     }
     
 }
-
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+    
+}
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
