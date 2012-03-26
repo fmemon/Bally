@@ -126,31 +126,29 @@ static inline float mtp(float d)
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bally.plist"];
         CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"bally.png"];
         [self addChild:spriteSheet];
-        [[CCTextureCache sharedTextureCache] addImage:@"brickssm.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"goldstars1sm.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"acornsm.png" ]; 
+        //[[CCTextureCache sharedTextureCache] addImage:@"brickssm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"star.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie1.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie2.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"border1.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"heart.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"flowersm.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"rainbow.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"targetsm.png" ]; 
-        [[CCTextureCache sharedTextureCache] addImage:@"clubsm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"target.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"club.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"flower2.png" ]; 
+
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", 
-                                @"clubsm.png",@"targetsm.png",@"flowersm.png", @"border1.png",nil ];
+        //NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", 
+         //                       @"clubsm.png",@"targetsm.png",@"flowersm.png", @"border1.png",nil ];
+        
+        NSArray *textureList = [[NSArray alloc] initWithObjects:@"star.png", @"heart.png", @"flower2.png", @"club.png",@"target.png",@"flowersm.png",nil ];
         
         texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % [textureList count]]];
-        //texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
-
-        sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
-        
-       // sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+        sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)];
         sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
         [sprite.texture setTexParameters:&params];        
         
@@ -466,8 +464,6 @@ static inline float mtp(float d)
 
     //polygon1
     sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
-    //sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@",[crossArray objectAtIndex:0]]];
-    //sprite = [CCSprite spriteWithSpriteFrameName:[crossArray objectAtIndex:arc4random() % 4]];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33];
     bodyDef.userData = sprite;
@@ -572,6 +568,7 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50f*64.0f, 0.40*64.0f)];
+    sprite.color = ccBLUE;
     [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
@@ -601,6 +598,7 @@ static inline float mtp(float d)
     p = [val CGPointValue];
     bodyDef1.position.Set(p.x +delta, p.y);
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)];
+    sprite.color = ccBLUE;
     [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.angle = 0.020196f;

@@ -54,6 +54,7 @@
     
     NSArray *crossArray;
     NSString *crossStrings[4];
+    
 }
 
 // returns a CCScene that contains the Bally as the only child
