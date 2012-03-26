@@ -598,10 +598,11 @@ static inline float mtp(float d)
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_dynamicBody;
-    sprite =nil;
-    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
-    [self addChild:sprite z:2 tag:33];
-    bodyDef.userData=sprite;
+    sprite = [CCSprite spriteWithSpriteFrameName:@"square.png"];
+    sprite.color = ccBLUE;
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:2 tag:33]; 
+    bodyDef.userData = sprite;
     b2Body* block = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     block->SetLinearVelocity(initVel);
@@ -624,7 +625,9 @@ static inline float mtp(float d)
     //triangle
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    sprite = [CCSprite spriteWithSpriteFrameName:@"acornsm.png"];
+    sprite = [CCSprite spriteWithSpriteFrameName:@"triangle.png"];
+    sprite.color = ccBLUE;
+
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33];  
     bodyDef.userData = sprite;
@@ -652,7 +655,8 @@ static inline float mtp(float d)
     //circle2
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    sprite = [CCSprite spriteWithSpriteFrameName:@"acornsm.png"];
+    sprite = [CCSprite spriteWithSpriteFrameName:@"circle.png"];
+    sprite.color = ccBLUE;
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33]; 
     bodyDef.userData = sprite;
