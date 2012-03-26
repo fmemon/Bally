@@ -542,7 +542,7 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
+    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 2.9*64.0f, 0.40*64.0f)];
     sprite.color = ccBLUE;
     [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
@@ -554,10 +554,10 @@ static inline float mtp(float d)
     staticBody2->SetLinearVelocity(initVel);
     staticBody2->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody2_vertices[4];
-    staticBody2_vertices[0].Set(-3.05f, -0.36f);
-    staticBody2_vertices[1].Set(3.05f, -0.36f);
-    staticBody2_vertices[2].Set(3.05f, 0.36f);
-    staticBody2_vertices[3].Set(-3.05f, 0.36f);
+    staticBody2_vertices[0].Set(-2.9f, -0.40f);
+    staticBody2_vertices[1].Set(2.9f, -0.40f);
+    staticBody2_vertices[2].Set(2.9f, 0.40f);
+    staticBody2_vertices[3].Set(-2.9f, 0.40f);
     shape.Set(staticBody2_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -571,7 +571,7 @@ static inline float mtp(float d)
     //staticBody3
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50f*64.0f, 0.40*64.0f)];
     [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
@@ -582,10 +582,10 @@ static inline float mtp(float d)
     staticBody3->SetLinearVelocity(initVel);
     staticBody3->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody3_vertices[4];
-    staticBody3_vertices[0].Set(-1.52f, -0.38f);
-    staticBody3_vertices[1].Set(1.52f, -0.38f);
-    staticBody3_vertices[2].Set(1.52f, 0.38f);
-    staticBody3_vertices[3].Set(-1.52f, 0.38f);
+    staticBody3_vertices[0].Set(-1.50f, -0.40f);
+    staticBody3_vertices[1].Set(1.50f, -0.40f);
+    staticBody3_vertices[2].Set(1.50f, 0.40f);
+    staticBody3_vertices[3].Set(-1.50f, 0.40f);
     shape.Set(staticBody3_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -600,7 +600,7 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     bodyDef1.position.Set(p.x +delta, p.y);
-    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.72*64.0f, 0.40*64.0f)];
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)];
     [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.angle = 0.020196f;
@@ -610,10 +610,10 @@ static inline float mtp(float d)
     staticBody4->SetLinearVelocity(initVel);
     staticBody4->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody4_vertices[4];
-    staticBody4_vertices[0].Set(-1.72f, -0.40f);
-    staticBody4_vertices[1].Set(1.72f, -0.40f);
-    staticBody4_vertices[2].Set(1.72f, 0.40f);
-    staticBody4_vertices[3].Set(-1.72f, 0.40f);
+    staticBody4_vertices[0].Set(-1.50f, -0.40f);
+    staticBody4_vertices[1].Set(1.50f, -0.40f);
+    staticBody4_vertices[2].Set(1.50f, 0.40f);
+    staticBody4_vertices[3].Set(-1.50f, 0.40f);
     shape.Set(staticBody4_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
