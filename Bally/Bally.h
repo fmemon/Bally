@@ -69,4 +69,6 @@
 - (void)scored:(b2Body*)bodyB;
 -(void)starterBoard;
 -(void)randomScreenLayout;
+-(ccColor3B)getMeColor;
+
 @end

@@ -181,8 +181,8 @@
 		65790B94151FE89C007DA928 /* clubsm.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790B8F151FE89B007DA928 /* clubsm.png */; };
 		65790BAC151FFCC8007DA928 /* backLand2xY.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BA8151FFCC8007DA928 /* backLand2xY.png */; };
 		65790BB4152004BE007DA928 /* backLandY.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BB3152004BE007DA928 /* backLandY.png */; };
-		65790BBB15200FD3007DA928 /* bally.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BB915200FD3007DA928 /* bally.png */; };
-		65790BBC15200FD3007DA928 /* bally.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65790BBA15200FD3007DA928 /* bally.plist */; };
+		65790BC915202D35007DA928 /* bally.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BC715202D34007DA928 /* bally.png */; };
+		65790BCA15202D35007DA928 /* bally.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65790BC815202D35007DA928 /* bally.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -523,8 +523,8 @@
 		65790B8F151FE89B007DA928 /* clubsm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clubsm.png; sourceTree = "<group>"; };
 		65790BA8151FFCC8007DA928 /* backLand2xY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backLand2xY.png; sourceTree = "<group>"; };
 		65790BB3152004BE007DA928 /* backLandY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backLandY.png; sourceTree = "<group>"; };
-		65790BB915200FD3007DA928 /* bally.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bally.png; sourceTree = "<group>"; };
-		65790BBA15200FD3007DA928 /* bally.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bally.plist; sourceTree = "<group>"; };
+		65790BC715202D34007DA928 /* bally.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bally.png; sourceTree = "<group>"; };
+		65790BC815202D35007DA928 /* bally.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bally.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,8 +608,8 @@
 		6576C2A8151BC06A00FF2732 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				65790BB915200FD3007DA928 /* bally.png */,
-				65790BBA15200FD3007DA928 /* bally.plist */,
+				65790BC715202D34007DA928 /* bally.png */,
+				65790BC815202D35007DA928 /* bally.plist */,
 				65790BB3152004BE007DA928 /* backLandY.png */,
 				65790BA8151FFCC8007DA928 /* backLand2xY.png */,
 				65790B8B151FE89B007DA928 /* border1.png */,
@@ -1161,8 +1161,8 @@
 				65790B94151FE89C007DA928 /* clubsm.png in Resources */,
 				65790BAC151FFCC8007DA928 /* backLand2xY.png in Resources */,
 				65790BB4152004BE007DA928 /* backLandY.png in Resources */,
-				65790BBB15200FD3007DA928 /* bally.png in Resources */,
-				65790BBC15200FD3007DA928 /* bally.plist in Resources */,
+				65790BC915202D35007DA928 /* bally.png in Resources */,
+				65790BCA15202D35007DA928 /* bally.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

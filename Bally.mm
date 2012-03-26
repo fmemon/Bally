@@ -84,12 +84,13 @@ static inline float mtp(float d)
         world = new b2World(gravity, doSleep); 
         world->SetContinuousPhysics(true); 
         
-        // Debug Draw functions
+  /*      // Debug Draw functions
         m_debugDraw = new GLESDebugDraw( PTM_RATIO );
         world->SetDebugDraw(m_debugDraw); 
         uint32 flags = 0;
         flags += b2DebugDraw::e_shapeBit;
         m_debugDraw->SetFlags(flags);  
+        */
         
         //initial settings
         score  = 0;
@@ -190,11 +191,11 @@ static inline float mtp(float d)
         
 		if (!muted)  {
             pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:playItem, pauseItem, nil];
-            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+            pause.position = ccp(screenSize.width*0.03, screenSize.height*0.95f);
         }
         else {
             pause = [CCMenuItemToggle itemWithTarget:self selector:@selector(turnOnMusic)items:pauseItem, playItem, nil];
-            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+            pause.position = ccp(screenSize.width*0.03, screenSize.height*0.95f);
         }
         
 		//Create Menu with the items created before
@@ -381,6 +382,11 @@ static inline float mtp(float d)
 
 -(void)starterBoard {
     //staticBody1
+    sprite = [CCSprite spriteWithSpriteFrameName:@"ledge.png"];
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:-1];
+    bodyDef1.userData = sprite;
+
     bodyDef1.position.Set(1.379107f, 8.495184f);
     bodyDef1.angle = -0.222508f;
     b2Body* staticBody1 = world->CreateBody(&bodyDef1);
@@ -423,6 +429,32 @@ static inline float mtp(float d)
     ball->CreateFixture(&fd);
 }
 
+-(ccColor3B)getMeColor {
+    int colorNum = arc4random() % 5;
+    ccColor3B myColor;
+    switch (colorNum) {
+        case 0:
+            myColor = ccBLUE;
+            break;
+        case 1:
+            myColor = ccRED;
+            break;
+        case 2:
+            myColor = ccORANGE;
+            //myColor = ccc3(255,118, 0);
+            break;
+        case 3:
+            myColor = ccMAGENTA;
+            break;
+        case 4:
+        default:
+            myColor = ccGREEN;
+            break;
+    }
+    return myColor;
+}
+
+
 -(void)compoundBody:(BOOL)isSecondSecreen {
     
     int i = 0;
@@ -431,7 +463,7 @@ static inline float mtp(float d)
     
     NSValue *val = [bodyPointsArray objectAtIndex:i++];
     CGPoint p = [val CGPointValue];
-    
+
     //polygon1
     sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
     //sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@",[crossArray objectAtIndex:0]]];
@@ -599,7 +631,8 @@ static inline float mtp(float d)
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_dynamicBody;
     sprite = [CCSprite spriteWithSpriteFrameName:@"square.png"];
-    sprite.color = ccBLUE;
+    sprite.color = [self getMeColor];
+                                                        
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33]; 
     bodyDef.userData = sprite;
@@ -627,6 +660,7 @@ static inline float mtp(float d)
     p = [val CGPointValue];
     sprite = [CCSprite spriteWithSpriteFrameName:@"triangle.png"];
     sprite.color = ccBLUE;
+    sprite.color = [self getMeColor];
 
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33];  
@@ -657,6 +691,8 @@ static inline float mtp(float d)
     p = [val CGPointValue];
     sprite = [CCSprite spriteWithSpriteFrameName:@"circle.png"];
     sprite.color = ccBLUE;
+    sprite.color = [self getMeColor];
+
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:33]; 
     bodyDef.userData = sprite;
@@ -887,11 +923,11 @@ static inline float mtp(float d)
         {
             myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
             self.position = myPosition;
-            pause.position = ccp((screenSize.width*0.06)+480.0f, screenSize.height*0.90f);
+            pause.position = ccp((screenSize.width*0.03)+480.0f, screenSize.height*0.95f);
         }
         else if (position.x < screenSize.width / 2.0f / PTM_RATIO) {
            // [pause runAction:[CCMoveTo actionWithDuration:0.05f  position:ccp(0.0f, pause.position.y)]];
-            pause.position = ccp(screenSize.width*0.06, screenSize.height*0.90f);
+            pause.position = ccp(screenSize.width*0.03, screenSize.height*0.95f);
         }
     
     }
