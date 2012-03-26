@@ -132,13 +132,19 @@ static inline float mtp(float d)
         [[CCTextureCache sharedTextureCache] addImage:@"acornsm.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie1.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie2.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"border1.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"flowersm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"rainbow.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"targetsm.png" ]; 
+        [[CCTextureCache sharedTextureCache] addImage:@"clubsm.png" ]; 
         
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
         //adding fixture
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", nil ];
+        NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", 
+                                @"clubsm.png",@"targetsm.png",@"flowersm.png", @"border1.png",nil ];
         
         texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % [textureList count]]];
         //texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % 3]];
