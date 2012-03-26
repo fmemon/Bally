@@ -714,7 +714,9 @@ static inline float mtp(float d)
     //Hole
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    sprite = [CCSprite spriteWithSpriteFrameName:@"hole.png"];
+    sprite = [CCSprite spriteWithFile:@"holeBX3.png"];
+    //sprite = [CCSprite spriteWithSpriteFrameName:@"holeBX.png"];
+    sprite.color = ccWHITE;
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
     [self addChild:sprite z:2 tag:88];
     bodyDef.userData = sprite;
