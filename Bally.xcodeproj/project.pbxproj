@@ -182,7 +182,7 @@
 		65790BA3151FF0F9007DA928 /* bally.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BA1151FF0F9007DA928 /* bally.png */; };
 		65790BA4151FF0F9007DA928 /* bally.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65790BA2151FF0F9007DA928 /* bally.plist */; };
 		65790BAC151FFCC8007DA928 /* backLand2xY.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BA8151FFCC8007DA928 /* backLand2xY.png */; };
-		65790BAE151FFE9A007DA928 /* backLandY.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BAD151FFE9A007DA928 /* backLandY.png */; };
+		65790BB4152004BE007DA928 /* backLandY.png in Resources */ = {isa = PBXBuildFile; fileRef = 65790BB3152004BE007DA928 /* backLandY.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -524,7 +524,7 @@
 		65790BA1151FF0F9007DA928 /* bally.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bally.png; sourceTree = "<group>"; };
 		65790BA2151FF0F9007DA928 /* bally.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bally.plist; sourceTree = "<group>"; };
 		65790BA8151FFCC8007DA928 /* backLand2xY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backLand2xY.png; sourceTree = "<group>"; };
-		65790BAD151FFE9A007DA928 /* backLandY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backLandY.png; sourceTree = "<group>"; };
+		65790BB3152004BE007DA928 /* backLandY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backLandY.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,7 +608,7 @@
 		6576C2A8151BC06A00FF2732 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				65790BAD151FFE9A007DA928 /* backLandY.png */,
+				65790BB3152004BE007DA928 /* backLandY.png */,
 				65790BA8151FFCC8007DA928 /* backLand2xY.png */,
 				65790BA1151FF0F9007DA928 /* bally.png */,
 				65790BA2151FF0F9007DA928 /* bally.plist */,
@@ -1162,7 +1162,7 @@
 				65790BA3151FF0F9007DA928 /* bally.png in Resources */,
 				65790BA4151FF0F9007DA928 /* bally.plist in Resources */,
 				65790BAC151FFCC8007DA928 /* backLand2xY.png in Resources */,
-				65790BAE151FFE9A007DA928 /* backLandY.png in Resources */,
+				65790BB4152004BE007DA928 /* backLandY.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -72,7 +72,7 @@
         }        
         
         tapLabel = [CCLabelTTF labelWithString:@"Tap to Restart" fontName:@"Marker Felt" fontSize:35];
-		tapLabel.position = ccp(249, 65.0f);    
+		tapLabel.position = ccp(249, 105.0f);    
         tapLabel.color = ccBLUE;
 		[self addChild: tapLabel];
         
@@ -101,11 +101,6 @@
 		CCMenu *menu = [CCMenu menuWithItems:pause, nil];
 		menu.position = CGPointZero;
 		[self addChild:menu z:11];
-        
-        tapLabel = [CCLabelTTF labelWithString:@"All Rights Reserved 2012 info@BestWhich.com" fontName:@"Arial" fontSize:16];
-		tapLabel.position = ccp(229, 15.0f);    
-        tapLabel.color = ccBLUE;
-		[self addChild: tapLabel];
  
     }
     return self; 
