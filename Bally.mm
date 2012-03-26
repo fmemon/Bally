@@ -116,7 +116,7 @@ static inline float mtp(float d)
         groundBody->CreateFixture(&shape,0);
 
         //background
-        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand2x.png"];
+        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand2xY.png"];
         sprite2.anchorPoint = CGPointZero;
         sprite2.position = CGPointZero;
         [self addChild:sprite2 z:-11];
@@ -205,7 +205,9 @@ static inline float mtp(float d)
         [self starterBoard];
         [self randomScreenLayout];
 
-
+        //create array of crosses to choose
+        crossArray = [NSArray arrayWithObjects:@"cross6.png", @"cross5.png",@"cross4.png",@"cross3.png",nil ];
+        
         [self schedule: @selector(tick:)]; 
     }
     return self; 
@@ -248,7 +250,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(11.8f, 2.8f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 2.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(2.98f, 2.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(8.7f, 5.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(11.6f, 5.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 6.9f)], //block
@@ -263,7 +265,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(11.7f, 2.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(3.8f, 2.18f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 5.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(2.98f, 5.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(8.7f, 9.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(11.6f, 7.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 5.9f)], //block
@@ -279,7 +281,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(10.2f, 7.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(1.8f, 2.18f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(7.8f, 4.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(7.98f, 4.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(8.7f, 1.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
@@ -295,7 +297,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(11.7f, 5.8f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(3.8f, 5.8f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(7.9f, 9.1f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(7.98f, 9.1f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(4.7f, 1.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(11.6f, 2.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
@@ -311,7 +313,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(9.0f, 4.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(3.8f, 5.18f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(9.8f, 9.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(9.98f, 9.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(10.7f, 8.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(6.6f, 1.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
@@ -327,7 +329,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(4.7f, 3.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(4.8f, 7.8f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(10.1f, 8.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(10.98f, 8.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(11.7f, 7.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(9.6f, 2.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
@@ -343,7 +345,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(8.7f, 3.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(4.8f, 7.8f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(10.1f, 8.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(10.98f, 8.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(11.7f, 6.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(2.6f, 2.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 0.9f)], //block
@@ -359,7 +361,7 @@ static inline float mtp(float d)
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
                        [ NSValue valueWithCGPoint:CGPointMake(11.8f, 2.8f)], //polygon2
-                       [ NSValue valueWithCGPoint:CGPointMake(2.9f, 2.8f)], //long
+                       [ NSValue valueWithCGPoint:CGPointMake(2.98f, 2.8f)], //long
                        [ NSValue valueWithCGPoint:CGPointMake(8.7f, 2.2f)], //slant
                        [ NSValue valueWithCGPoint:CGPointMake(11.6f, 6.8f)], //short
                        [ NSValue valueWithCGPoint:CGPointMake(11.9f, 6.9f)], //block
@@ -430,8 +432,13 @@ static inline float mtp(float d)
     NSValue *val = [bodyPointsArray objectAtIndex:i++];
     CGPoint p = [val CGPointValue];
     
-    
     //polygon1
+    sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
+    //sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@",[crossArray objectAtIndex:0]]];
+    //sprite = [CCSprite spriteWithSpriteFrameName:[crossArray objectAtIndex:arc4random() % 4]];
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:2 tag:33];
+    bodyDef.userData = sprite;
     bodyDef.type=b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.angle = 0.000000f;
@@ -457,7 +464,6 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon1->CreateFixture(&fd);
-    
     pos.Set(p.x + delta, p.y);
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
@@ -467,8 +473,9 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.65*64.0f, 0.35*64.0f)];
-    [self addChild:sprite];
+    sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:2 tag:33];
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.angle = 0.000000f;
@@ -494,12 +501,10 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     polygon2->CreateFixture(&fd);   
-    
     pos.Set(p.x + delta, p.y);
     revJointDef.Initialize(polygon2, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef); 
-
     
     //staticBody2
     val = [bodyPointsArray objectAtIndex:i++];
@@ -507,7 +512,7 @@ static inline float mtp(float d)
     
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
     sprite.color = ccBLUE;
-    [self addChild:sprite];
+    [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
     bodyDef1.type = b2_staticBody;
@@ -517,10 +522,10 @@ static inline float mtp(float d)
     staticBody2->SetLinearVelocity(initVel);
     staticBody2->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody2_vertices[4];
-    staticBody2_vertices[0].Set(-3.053178f, -0.361702f);
-    staticBody2_vertices[1].Set(3.053178f, -0.361702f);
-    staticBody2_vertices[2].Set(3.053178f, 0.361702f);
-    staticBody2_vertices[3].Set(-3.053178f, 0.361702f);
+    staticBody2_vertices[0].Set(-3.05f, -0.36f);
+    staticBody2_vertices[1].Set(3.05f, -0.36f);
+    staticBody2_vertices[2].Set(3.05f, 0.36f);
+    staticBody2_vertices[3].Set(-3.05f, 0.36f);
     shape.Set(staticBody2_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -535,7 +540,7 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
-    [self addChild:sprite];
+    [self addChild:sprite z:2 tag:33];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
     bodyDef1.angle = -0.507438f;
@@ -545,10 +550,10 @@ static inline float mtp(float d)
     staticBody3->SetLinearVelocity(initVel);
     staticBody3->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody3_vertices[4];
-    staticBody3_vertices[0].Set(-1.521277f, -0.382979f);
-    staticBody3_vertices[1].Set(1.521277f, -0.382979f);
-    staticBody3_vertices[2].Set(1.521277f, 0.382979f);
-    staticBody3_vertices[3].Set(-1.521277f, 0.382979f);
+    staticBody3_vertices[0].Set(-1.52f, -0.38f);
+    staticBody3_vertices[1].Set(1.52f, -0.38f);
+    staticBody3_vertices[2].Set(1.52f, 0.38f);
+    staticBody3_vertices[3].Set(-1.52f, 0.38f);
     shape.Set(staticBody3_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -563,6 +568,9 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     bodyDef1.position.Set(p.x +delta, p.y);
+    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.72*64.0f, 0.40*64.0f)];
+    [self addChild:sprite z:2 tag:33];
+    bodyDef1.userData = sprite;
     bodyDef1.angle = 0.020196f;
     bodyDef1.type = b2_staticBody;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
@@ -570,10 +578,10 @@ static inline float mtp(float d)
     staticBody4->SetLinearVelocity(initVel);
     staticBody4->SetAngularVelocity(0.000000f);
     b2Vec2 staticBody4_vertices[4];
-    staticBody4_vertices[0].Set(-1.723404f, -0.404255f);
-    staticBody4_vertices[1].Set(1.723404f, -0.404255f);
-    staticBody4_vertices[2].Set(1.723404f, 0.404255f);
-    staticBody4_vertices[3].Set(-1.723404f, 0.404255f);
+    staticBody4_vertices[0].Set(-1.72f, -0.40f);
+    staticBody4_vertices[1].Set(1.72f, -0.40f);
+    staticBody4_vertices[2].Set(1.72f, 0.40f);
+    staticBody4_vertices[3].Set(-1.72f, 0.40f);
     shape.Set(staticBody4_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -592,17 +600,17 @@ static inline float mtp(float d)
     bodyDef.type = b2_dynamicBody;
     sprite =nil;
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
-    [self addChild:sprite];
+    [self addChild:sprite z:2 tag:33];
     bodyDef.userData=sprite;
     b2Body* block = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
     block->SetLinearVelocity(initVel);
     block->SetAngularVelocity(0.000000f);
     b2Vec2 block_vertices[4];
-    block_vertices[0].Set(-0.851064f, -0.840426f);
-    block_vertices[1].Set(0.851064f, -0.840426f);
-    block_vertices[2].Set(0.851064f, 0.840426f);
-    block_vertices[3].Set(-0.851064f, 0.840426f);
+    block_vertices[0].Set(-0.85f, -0.85f);
+    block_vertices[1].Set(0.85f, -0.85f);
+    block_vertices[2].Set(0.85f, 0.85f);
+    block_vertices[3].Set(-0.85f, 0.85f);
     shape.Set(block_vertices, 4);
     fd.shape = &shape;
     fd.density = 0.015000f;
@@ -616,6 +624,10 @@ static inline float mtp(float d)
     //triangle
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
+    sprite = [CCSprite spriteWithSpriteFrameName:@"acornsm.png"];
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:2 tag:33];  
+    bodyDef.userData = sprite;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.angle = 0.000000f;
@@ -640,7 +652,10 @@ static inline float mtp(float d)
     //circle2
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"acornsm.png"];
+    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
+    [self addChild:sprite z:2 tag:33]; 
+    bodyDef.userData = sprite;
     bodyDef.position.Set(p.x + delta, p.y);
     bodyDef.type = b2_dynamicBody;
     bodyDef.angle = 0.000000f;
@@ -923,6 +938,7 @@ static inline float mtp(float d)
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
+    [crossArray release];
 	// in case you have something to dealloc, do it in this method
 	delete world;
 	world = NULL;

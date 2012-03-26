@@ -30,7 +30,7 @@
 -(id) init
 {
 	if( (self=[super init] )) {
-        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLand.png"];
+        CCSprite *sprite2 = [CCSprite spriteWithFile:@"backLandY.png"];
         
         sprite2.anchorPoint = CGPointZero;
         [self addChild:sprite2 z:-11];
