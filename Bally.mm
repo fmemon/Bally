@@ -126,7 +126,6 @@ static inline float mtp(float d)
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bally.plist"];
         CCSpriteBatchNode*  spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"bally.png"];
         [self addChild:spriteSheet];
-        //[[CCTextureCache sharedTextureCache] addImage:@"brickssm.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"star.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie1.png" ]; 
         [[CCTextureCache sharedTextureCache] addImage:@"blinkie2.png" ]; 
@@ -137,20 +136,20 @@ static inline float mtp(float d)
         [[CCTextureCache sharedTextureCache] addImage:@"flower2.png" ]; 
 
         
+        
+        
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
         
         //adding fixture
-        ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-        //NSArray *textureList = [[NSArray alloc] initWithObjects:@"brickssm.png",@"goldstars1sm.png",@"acornsm.png", 
-         //                       @"clubsm.png",@"targetsm.png",@"flowersm.png", @"border1.png",nil ];
+        //ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
         
-        NSArray *textureList = [[NSArray alloc] initWithObjects:@"star.png", @"heart.png", @"flower2.png", @"club.png",@"target.png",@"flowersm.png",nil ];
+        textureList = [[[NSArray alloc] initWithObjects:@"star.png", @"heart.png", @"flower2.png", @"club.png",@"target.png",@"flowersm.png",nil ]autorelease];
         
         texture = [[CCTextureCache sharedTextureCache] addImage:[textureList objectAtIndex:arc4random() % [textureList count]]];
-        sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)];
-        sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
-        [sprite.texture setTexParameters:&params];        
+        //sprite= [[[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)] autorelease];
+        //sprite.position = CGPointMake(480.0f / 2, 360.0f / 2);
+        //[sprite.texture setTexParameters:&params];        
         
         
         //show scores
@@ -213,7 +212,7 @@ static inline float mtp(float d)
 }
 
 -(void)randomScreenLayout {
-    NSMutableArray *screens = [[NSMutableArray alloc] initWithCapacity:12];
+    screens = [[[NSMutableArray alloc] initWithCapacity:12] autorelease];
     
     bodyPointsArray = [[NSMutableArray alloc] initWithObjects:
                        [ NSValue valueWithCGPoint:CGPointMake(4.7f, 7.3f)], //polygon1
@@ -455,6 +454,9 @@ static inline float mtp(float d)
 
 -(void)compoundBody:(BOOL)isSecondSecreen {
     
+    ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+
+    
     int i = 0;
     float delta = 0.0f;
     if (isSecondSecreen) delta = 15.0f;
@@ -465,7 +467,7 @@ static inline float mtp(float d)
     //polygon1
     sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:33];
+    [self addChild:sprite z:3 tag:33];
     bodyDef.userData = sprite;
     bodyDef.type=b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
@@ -503,7 +505,7 @@ static inline float mtp(float d)
     
     sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"cross%i.png", 5+(arc4random() % 2)]];
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:33];
+    [self addChild:sprite z:3 tag:33];
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.angle = 0.000000f;
@@ -537,11 +539,13 @@ static inline float mtp(float d)
     //staticBody2
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    
     sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 2.9*64.0f, 0.40*64.0f)];
+    [sprite.texture setTexParameters:&params];        
+
     sprite.color = ccBLUE;
-    [self addChild:sprite z:2 tag:33];
+    [self addChild:sprite z:3 tag:33];
     bodyDef1.userData = sprite;
+    [sprite release];
     bodyDef1.position.Set(p.x +delta, p.y);
     bodyDef1.type = b2_staticBody;
     bodyDef1.angle = -0.025254f;
@@ -568,9 +572,12 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50f*64.0f, 0.40*64.0f)];
+    [sprite.texture setTexParameters:&params];        
+
     sprite.color = ccBLUE;
-    [self addChild:sprite z:2 tag:33];
+    [self addChild:sprite z:3 tag:33];
     bodyDef1.userData = sprite;
+    [sprite release];
     bodyDef1.position.Set(p.x +delta, p.y);
     bodyDef1.angle = -0.507438f;
     bodyDef1.type = b2_staticBody;
@@ -598,9 +605,13 @@ static inline float mtp(float d)
     p = [val CGPointValue];
     bodyDef1.position.Set(p.x +delta, p.y);
     sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.50*64.0f, 0.40*64.0f)];
+    [sprite.texture setTexParameters:&params];        
+
     sprite.color = ccBLUE;
-    [self addChild:sprite z:2 tag:33];
+    [self addChild:sprite z:3 tag:33];
     bodyDef1.userData = sprite;
+    [sprite release];
+
     bodyDef1.angle = 0.020196f;
     bodyDef1.type = b2_staticBody;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
@@ -632,7 +643,7 @@ static inline float mtp(float d)
     sprite.color = [self getMeColor];
                                                         
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:33]; 
+    [self addChild:sprite z:3 tag:33]; 
     bodyDef.userData = sprite;
     b2Body* block = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -661,7 +672,7 @@ static inline float mtp(float d)
     sprite.color = [self getMeColor];
 
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:33];  
+    [self addChild:sprite z:3 tag:33];  
     bodyDef.userData = sprite;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
@@ -714,11 +725,10 @@ static inline float mtp(float d)
     //Hole
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
-    sprite = [CCSprite spriteWithFile:@"holeBX3.png"];
-    //sprite = [CCSprite spriteWithSpriteFrameName:@"holeBX.png"];
+    sprite = [CCSprite spriteWithSpriteFrameName:@"holeBX3.png"];
     sprite.color = ccWHITE;
     sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:88];
+    [self addChild:sprite z:3 tag:88];
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
     bodyDef.type = b2_staticBody;
@@ -728,7 +738,7 @@ static inline float mtp(float d)
     initVel.Set(0.000000f, 0.000000f);
     hole->SetLinearVelocity(initVel);
     hole->SetAngularVelocity(0.000000f);
-    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.5;//was 0.05f - too tiny
+    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.85;//was 0.05f - too tiny
     fd.shape = &circleShape;
     fd.density = 0.196374f;
     fd.friction = 0.300000f;
@@ -737,6 +747,7 @@ static inline float mtp(float d)
     fd.filter.categoryBits = uint16(65535);
     fd.filter.maskBits = uint16(65535);
     hole->CreateFixture(&fd);
+    
 }
 
 - (void)scored:(b2Body*)bodyB {
@@ -934,23 +945,6 @@ static inline float mtp(float d)
     
 }
 
-/*
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
-}
-
-- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
-}
-
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-  
-}
-*/
-
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     return YES;
 }
@@ -978,7 +972,37 @@ static inline float mtp(float d)
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
+    [highscoreLabel release];
+    [scoreLabel release];
+    [highscoreLabel2 release];
+    [scoreLabel2 release];
+    
+    [pause release];
+    
+    [bodyPointsArray release];
+    [sprite release];
+    [texture release];
     [crossArray release];
+    [textureList release];
+    [screens release];
+    
+    //IF you have particular spritesheets to be removed! Don't use these if you haven't any
+    //[[CCSpriteFrameCache sharedSpriteFrameCache]removeSpriteFramesFromFile:@"froggie.plist"];
+    [[CCSpriteFrameCache sharedSpriteFrameCache]removeSpriteFramesFromFile:@"bally.plist"];
+    
+    //Use these
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
+    
+    
+    //Use these
+    [[CCTextureCache sharedTextureCache] removeUnusedTextures];
+    [[CCTextureCache sharedTextureCache] removeAllTextures];
+    [[CCDirector sharedDirector] purgeCachedData];
+    
+    //Try out and use it. Not compulsory
+    [self removeAllChildrenWithCleanup: YES];
+    
 	// in case you have something to dealloc, do it in this method
 	delete world;
 	world = NULL;

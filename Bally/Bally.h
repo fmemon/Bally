@@ -53,8 +53,9 @@
     NSMutableArray* bodyPointsArray;
     
     NSArray *crossArray;
-    NSString *crossStrings[4];
     
+    NSArray *textureList;
+    NSMutableArray *screens;
 }
 
 // returns a CCScene that contains the Bally as the only child
