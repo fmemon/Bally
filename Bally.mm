@@ -98,8 +98,6 @@ static inline float mtp(float d)
         muted = FALSE;
         [self restoreData];
 
-
-        
         ground = NULL;
         b2BodyDef bd;
         ground = world->CreateBody(&bd);
@@ -436,7 +434,6 @@ static inline float mtp(float d)
     //polygon1
     bodyDef.type=b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(4.764226f, 7.320508f);
     bodyDef.angle = 0.000000f;
     polygon1 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -462,7 +459,6 @@ static inline float mtp(float d)
     polygon1->CreateFixture(&fd);
     
     pos.Set(p.x + delta, p.y);
-    //pos.Set(4.764226f, 7.320508f);
     revJointDef.Initialize(polygon1, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef);
@@ -475,7 +471,6 @@ static inline float mtp(float d)
     [self addChild:sprite];
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(1.779086f, 5.100423f);
     bodyDef.angle = 0.000000f;
     b2Body* polygon2 = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -501,7 +496,6 @@ static inline float mtp(float d)
     polygon2->CreateFixture(&fd);   
     
     pos.Set(p.x + delta, p.y);
-    //pos.Set(1.779086f, 5.100423f);
     revJointDef.Initialize(polygon2, ground, pos);
     revJointDef.collideConnected = false;
     world->CreateJoint(&revJointDef); 
@@ -516,7 +510,6 @@ static inline float mtp(float d)
     [self addChild:sprite];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(5.946951f, 2.903825f);
     bodyDef1.type = b2_staticBody;
     bodyDef1.angle = -0.025254f;
     b2Body* staticBody2 = world->CreateBody(&bodyDef1);
@@ -545,7 +538,6 @@ static inline float mtp(float d)
     [self addChild:sprite];
     bodyDef1.userData = sprite;
     bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(8.670213f, 1.212766f);
     bodyDef1.angle = -0.507438f;
     bodyDef1.type = b2_staticBody;
     b2Body* staticBody3 = world->CreateBody(&bodyDef1);
@@ -571,7 +563,6 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(11.574468f, 2.851064f);
     bodyDef1.angle = 0.020196f;
     bodyDef1.type = b2_staticBody;
     b2Body* staticBody4 = world->CreateBody(&bodyDef1);
@@ -597,7 +588,6 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_dynamicBody;
     sprite =nil;
@@ -628,7 +618,6 @@ static inline float mtp(float d)
     p = [val CGPointValue];
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(11.914894f, 0.882979f);
     bodyDef.angle = 0.000000f;
     b2Body* triangle = world->CreateBody(&bodyDef);
     initVel.Set(0.000000f, 0.000000f);
@@ -652,9 +641,7 @@ static inline float mtp(float d)
     val = [bodyPointsArray objectAtIndex:i++];
     p = [val CGPointValue];
     
-    // bodyDef.position.Set(24.36, 4.276596f);
     bodyDef.position.Set(p.x + delta, p.y);
-    //bodyDef.position.Set(9.361702f, 4.276596f);
     bodyDef.type = b2_dynamicBody;
     bodyDef.angle = 0.000000f;
     b2Body* circle2 = world->CreateBody(&bodyDef);
@@ -679,7 +666,6 @@ static inline float mtp(float d)
     [self addChild:sprite z:2 tag:88];
     bodyDef.userData = sprite;
     bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(480.0f/2/PTM_RATIO, 6.574468f);
     bodyDef.type = b2_staticBody;
     bodyDef.angle = 0.000000f;
     bodyDef.type = b2_staticBody;
@@ -687,255 +673,6 @@ static inline float mtp(float d)
     initVel.Set(0.000000f, 0.000000f);
     hole->SetLinearVelocity(initVel);
     hole->SetAngularVelocity(0.000000f);
-    //circleShape.m_radius = 0.406489f;
-    circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.5;//was 0.05f - too tiny
-    fd.shape = &circleShape;
-    fd.density = 0.196374f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    hole->CreateFixture(&fd);
-
-    
-}
-
-
-/*
--(void)compoundBody:(BOOL)isSecondSecreen {
-    
-    int i = 0;
-    float delta = 0.0f;
-    if (isSecondSecreen) delta = 15.0f;
-    
-    NSValue *val = [bodyPointsArray objectAtIndex:i++];
-    CGPoint p = [val CGPointValue];
-
-    
-    //polygon1
-    bodyDef.type=b2_dynamicBody;
-    bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(4.764226f, 7.320508f);
-    bodyDef.angle = 0.000000f;
-    polygon1 = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    polygon1->SetLinearVelocity(initVel);
-    polygon1->SetAngularVelocity(0.000000f);
-    boxy.SetAsBox(1.65f, 0.35f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.9000000f; //was 0.6 now faster
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon1->CreateFixture(&fd);
-    boxy.SetAsBox(0.35f,1.65f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon1->CreateFixture(&fd);
-    pos.Set(4.764226f, 7.320508f);;
-    revJointDef.Initialize(polygon1, ground, pos);
-    revJointDef.collideConnected = false;
-    world->CreateJoint(&revJointDef);
-    
-    //polygon2
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.65*64.0f, 0.35*64.0f)];
-    [self addChild:sprite];
-    bodyDef.userData = sprite;
-    bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(1.779086f, 5.100423f);
-    bodyDef.angle = 0.000000f;
-    b2Body* polygon2 = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    polygon2->SetLinearVelocity(initVel);
-    polygon2->SetAngularVelocity(0.000000f);
-    boxy.SetAsBox(1.65f, 0.35f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon2->CreateFixture(&fd);
-    boxy.SetAsBox(0.35f,1.65f);
-    fd.shape = &boxy;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    polygon2->CreateFixture(&fd);    
-    
-
-    //staticBody2
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    
-    sprite= [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 3.05*64.0f, 0.36*64.0f)];
-    sprite.color = ccBLUE;
-    [self addChild:sprite];
-    bodyDef1.userData = sprite;
-    bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(5.946951f, 2.903825f);
-    bodyDef1.angle = -0.025254f;
-    b2Body* staticBody2 = world->CreateBody(&bodyDef1);
-    initVel.Set(0.000000f, 0.000000f);
-    staticBody2->SetLinearVelocity(initVel);
-    staticBody2->SetAngularVelocity(0.000000f);
-    b2Vec2 staticBody2_vertices[4];
-    staticBody2_vertices[0].Set(-3.053178f, -0.361702f);
-    staticBody2_vertices[1].Set(3.053178f, -0.361702f);
-    staticBody2_vertices[2].Set(3.053178f, 0.361702f);
-    staticBody2_vertices[3].Set(-3.053178f, 0.361702f);
-    shape.Set(staticBody2_vertices, 4);
-    fd.shape = &shape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    staticBody2->CreateFixture(&shape,0);
-
-    //staticBody3
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 1.52*64.0f, 0.52*64.0f)];
-    [self addChild:sprite];
-    bodyDef1.userData = sprite;
-    bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(8.670213f, 1.212766f);
-    bodyDef1.angle = -0.507438f;
-    b2Body* staticBody3 = world->CreateBody(&bodyDef1);
-    initVel.Set(0.000000f, 0.000000f);
-    staticBody3->SetLinearVelocity(initVel);
-    staticBody3->SetAngularVelocity(0.000000f);
-    b2Vec2 staticBody3_vertices[4];
-    staticBody3_vertices[0].Set(-1.521277f, -0.382979f);
-    staticBody3_vertices[1].Set(1.521277f, -0.382979f);
-    staticBody3_vertices[2].Set(1.521277f, 0.382979f);
-    staticBody3_vertices[3].Set(-1.521277f, 0.382979f);
-    shape.Set(staticBody3_vertices, 4);
-    fd.shape = &shape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    staticBody3->CreateFixture(&shape,0);
-
-    //staticBody4
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    bodyDef1.position.Set(p.x +delta, p.y);
-    //bodyDef1.position.Set(11.574468f, 2.851064f);
-    bodyDef1.angle = 0.020196f;
-    b2Body* staticBody4 = world->CreateBody(&bodyDef1);
-    initVel.Set(0.000000f, 0.000000f);
-    staticBody4->SetLinearVelocity(initVel);
-    staticBody4->SetAngularVelocity(0.000000f);
-    b2Vec2 staticBody4_vertices[4];
-    staticBody4_vertices[0].Set(-1.723404f, -0.404255f);
-    staticBody4_vertices[1].Set(1.723404f, -0.404255f);
-    staticBody4_vertices[2].Set(1.723404f, 0.404255f);
-    staticBody4_vertices[3].Set(-1.723404f, 0.404255f);
-    shape.Set(staticBody4_vertices, 4);
-    fd.shape = &shape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    staticBody4->CreateFixture(&shape,0);
-    
-    //block
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(11.914894f, 0.882979f);
-    bodyDef.angle = 0.000000f;
-    sprite =nil;
-    sprite = [[CCSprite alloc] initWithTexture:texture rect:CGRectMake(0, 0, 0.85*64.0f, 0.85*64.0f)];
-    [self addChild:sprite];
-    bodyDef.userData=sprite;
-    b2Body* block = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    block->SetLinearVelocity(initVel);
-    block->SetAngularVelocity(0.000000f);
-    b2Vec2 block_vertices[4];
-    block_vertices[0].Set(-0.851064f, -0.840426f);
-    block_vertices[1].Set(0.851064f, -0.840426f);
-    block_vertices[2].Set(0.851064f, 0.840426f);
-    block_vertices[3].Set(-0.851064f, 0.840426f);
-    shape.Set(block_vertices, 4);
-    fd.shape = &shape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    block->CreateFixture(&fd);
-    
-    //circle2
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    
-    NSLog(@"p.x is %f p.y is %f and delta is %f", p.x, p.y, delta);
-   // bodyDef.position.Set(24.36, 4.276596f);
-    bodyDef.position.Set(p.x + delta, p.y);
-    //bodyDef.position.Set(9.361702f, 4.276596f);
-    bodyDef.angle = 0.000000f;
-    b2Body* circle2 = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    circle2->SetLinearVelocity(initVel);
-    circle2->SetAngularVelocity(0.000000f);
-    circleShape.m_radius = 1.175038f;
-    fd.shape = &circleShape;
-    fd.density = 0.015000f;
-    fd.friction = 0.300000f;
-    fd.restitution = 0.600000f;
-    fd.filter.groupIndex = int16(0);
-    fd.filter.categoryBits = uint16(65535);
-    fd.filter.maskBits = uint16(65535);
-    circle2->CreateFixture(&fd);
-
-    //Revolute joints
-    pos.Set(1.779086f, 5.100423f);
-    revJointDef.Initialize(polygon2, ground, pos);
-    revJointDef.collideConnected = false;
-    world->CreateJoint(&revJointDef); 
-    
-    //Hole
-    val = [bodyPointsArray objectAtIndex:i++];
-    p = [val CGPointValue];
-    sprite = [CCSprite spriteWithSpriteFrameName:@"hole.png"];
-    sprite.position = ccp(480.0f/2, 50/PTM_RATIO);
-    [self addChild:sprite z:2 tag:88];
-    bodyDef.userData = sprite;
-    bodyDef.position.Set(p.x +delta, p.y);
-    //bodyDef.position.Set(480.0f/2/PTM_RATIO, 6.574468f);
-    bodyDef.angle = 0.000000f;
-    bodyDef.type = b2_staticBody;
-    b2Body* hole = world->CreateBody(&bodyDef);
-    initVel.Set(0.000000f, 0.000000f);
-    hole->SetLinearVelocity(initVel);
-    hole->SetAngularVelocity(0.000000f);
-    //circleShape.m_radius = 0.406489f;
     circleShape.m_radius = (sprite.contentSize.width / PTM_RATIO) * 0.5;//was 0.05f - too tiny
     fd.shape = &circleShape;
     fd.density = 0.196374f;
@@ -946,7 +683,7 @@ static inline float mtp(float d)
     fd.filter.maskBits = uint16(65535);
     hole->CreateFixture(&fd);
 }
-*/
+
 - (void)scored:(b2Body*)bodyB {
     [MusicHandler playBounce];
     score += 15;
@@ -1005,12 +742,10 @@ static inline float mtp(float d)
     if ([[SimpleAudioEngine sharedEngine] mute]) {
         // This will unmute the sound
         muted = FALSE;
-        // [[SimpleAudioEngine sharedEngine] setMute:0];
     }
     else {
         //This will mute the sound
         muted = TRUE;
-        //[[SimpleAudioEngine sharedEngine] setMute:1];
     }
     [[SimpleAudioEngine sharedEngine] setMute:muted];
     
@@ -1113,10 +848,6 @@ static inline float mtp(float d)
             } 
             else if (spriteA.tag == 11)  {
                 [self scored:bodyA];
- /*           //check if too far left or too far right
-                if (spriteA.position.x < 0.5f || spriteA.position.x > 29.5f) [spriteA runAction:[CCMoveTo actionWithDuration:0.1f 
-                                                                                                         position:ccp(spriteA.position.x+1.5f, spriteA.position.y)]];
-  */
             }
             else if (spriteB.tag == 11)  {
                 [self scored:bodyB];
